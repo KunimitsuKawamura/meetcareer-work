@@ -1,0 +1,516 @@
+/* ============================================
+   ミートキャリア「気づきのワーク」
+   スタイルシート
+   
+   ブランドガイドライン準拠:
+   - Primary: #E89B27 (Orange)
+   - Secondary: #64BBBF (Teal)
+   - BG: #FDF9F3 (Cream)
+   - Text: #333333 (Dark Gray)
+   - Font: Zen Kaku Gothic New
+   ============================================ */
+
+/* --- Reset & Base --- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  color: #333333;
+  background-color: #FDF9F3;
+  line-height: 1.8;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* --- Background Gradient --- */
+.app-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(160deg,
+      #FDF9F3 0%,
+      #FEF3E2 30%,
+      #ECF6F6 70%,
+      #FDF9F3 100%);
+  z-index: -1;
+}
+
+/* --- Layout --- */
+.app-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* --- Logo --- */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeInDown 0.8s ease forwards;
+}
+
+.logo-image {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* --- Screen (共通) --- */
+.screen {
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+.screen.active {
+  display: flex;
+  animation: fadeIn 0.6s ease;
+}
+
+/* --- Hero Screen --- */
+.hero-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.hero-title .accent {
+  color: #E89B27;
+  font-size: 2.2rem;
+}
+
+.hero-subtitle {
+  text-align: center;
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+
+.hero-principles {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  margin-bottom: 36px;
+}
+
+.hero-principles ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hero-principles li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.hero-principles li::before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #64BBBF;
+  flex-shrink: 0;
+}
+
+/* --- Step Screen --- */
+.step-header {
+  width: 100%;
+  margin-bottom: 28px;
+}
+
+.step-label {
+  display: inline-block;
+  background: #64BBBF;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  letter-spacing: 0.1em;
+}
+
+.step-subheading {
+  font-size: 0.85rem;
+  color: #64BBBF;
+  margin-bottom: 8px;
+}
+
+.step-question {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.step-note {
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 8px;
+  line-height: 1.6;
+}
+
+/* --- Progress Bar --- */
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(100, 187, 191, 0.2);
+  border-radius: 2px;
+  margin-bottom: 32px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #64BBBF, #E89B27);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+/* --- Options --- */
+.options {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.option-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.option-card:hover {
+  border-color: #64BBBF;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(100, 187, 191, 0.15);
+}
+
+.option-card.selected {
+  border-color: #E89B27;
+  background: rgba(232, 155, 39, 0.08);
+}
+
+.option-card.selected::before {
+  content: '✓ ';
+  color: #E89B27;
+  font-weight: 700;
+}
+
+/* --- Buttons --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #E89B27;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 16px 40px;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-primary:hover {
+  background: #d48a1e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(232, 155, 39, 0.3);
+}
+
+.btn-primary:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-next {
+  margin-top: 12px;
+  width: 100%;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: #64BBBF;
+  border: 2px solid #64BBBF;
+  border-radius: 50px;
+  padding: 12px 32px;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-secondary:hover {
+  background: #64BBBF;
+  color: white;
+}
+
+/* --- Result Screen --- */
+.result-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 32px 24px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.result-heading {
+  font-size: 0.85rem;
+  color: #64BBBF;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.result-text {
+  font-size: 0.95rem;
+  line-height: 2;
+  white-space: pre-line;
+}
+
+.result-text strong {
+  color: #E89B27;
+  font-weight: 700;
+}
+
+.result-divider {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, #64BBBF, #E89B27);
+  border-radius: 1px;
+  margin: 24px auto;
+}
+
+.reflection-card {
+  background: rgba(236, 246, 246, 0.6);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.reflection-heading {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #64BBBF;
+  margin-bottom: 16px;
+}
+
+.reflection-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reflection-list li {
+  font-size: 0.9rem;
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.7;
+}
+
+.reflection-list li::before {
+  content: '?';
+  position: absolute;
+  left: 0;
+  color: #E89B27;
+  font-weight: 700;
+}
+
+.cta-section {
+  text-align: center;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.cta-heading {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.cta-text {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 24px;
+  white-space: pre-line;
+}
+
+/* --- Retry --- */
+.retry-section {
+  margin-top: 24px;
+}
+
+/* --- Footer --- */
+.app-footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #aaa;
+}
+
+.app-footer a {
+  color: #999;
+  text-decoration: none;
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.delay-1 {
+  animation-delay: 0.2s;
+}
+
+.delay-2 {
+  animation-delay: 0.4s;
+}
+
+.delay-3 {
+  animation-delay: 0.6s;
+}
+
+.delay-4 {
+  animation-delay: 0.8s;
+}
+
+/* --- Responsive --- */
+@media (max-width: 520px) {
+  .app-container {
+    padding: 24px 16px 48px;
+  }
+
+  .hero-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-title .accent {
+    font-size: 1.8rem;
+  }
+
+  .step-question {
+    font-size: 1rem;
+  }
+
+  .option-card {
+    padding: 14px 16px;
+    font-size: 0.9rem;
+  }
+
+  .btn-primary {
+    padding: 14px 32px;
+    font-size: 0.95rem;
+  }
+
+  .result-card {
+    padding: 24px 20px;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-title {
+    font-size: 1.3rem;
+  }
+
+  .hero-title .accent {
+    font-size: 1.5rem;
+  }
+}
