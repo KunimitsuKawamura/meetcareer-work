@@ -63,15 +63,6 @@ class WorkApp {
       </div>
     `).join('');
 
-    let nextBtnHTML = '';
-    if (q.type === 'multi') {
-      nextBtnHTML = `
-        <button class="btn-primary btn-next" id="btn-next" disabled>
-          次へ
-        </button>
-      `;
-    }
-
     container.innerHTML = `
       <div class="screen active" id="screen-step-${q.id}">
         <div class="progress-bar">
@@ -86,7 +77,9 @@ class WorkApp {
         <div class="options fade-in-up delay-1">
           ${optionsHTML}
         </div>
-        ${nextBtnHTML}
+        <button class="btn-primary btn-next fade-in-up delay-2" id="btn-next" disabled>
+          次へ
+        </button>
       </div>
     `;
 
@@ -103,6 +96,7 @@ class WorkApp {
 
   setupOptionListeners(question) {
     const cards = document.querySelectorAll('.option-card');
+    const nextBtn = document.getElementById('btn-next');
 
     if (question.type === 'single') {
       cards.forEach(card => {
@@ -119,13 +113,19 @@ class WorkApp {
             text: card.textContent.trim()
           };
 
-          // Track and advance after short delay
-          Analytics.trackStep(question.id, card.dataset.tag);
-          setTimeout(() => this.nextStep(), 400);
+          // Enable next button
+          nextBtn.disabled = false;
         });
       });
+
+      nextBtn.addEventListener('click', () => {
+        if (this.answers[question.id]) {
+          Analytics.trackStep(question.id, this.answers[question.id].tag);
+          this.nextStep();
+        }
+      });
+
     } else if (question.type === 'multi') {
-      const nextBtn = document.getElementById('btn-next');
       const selectedTags = new Set();
 
       cards.forEach(card => {
