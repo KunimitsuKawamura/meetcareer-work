@@ -58,8 +58,8 @@ const Analytics = (() => {
         trackComplete: (answers) => sendEvent('work_complete', {
             answers: JSON.stringify(answers)
         }),
-        trackCTAClick: () => sendEvent('work_cta_click', {
-            destination: 'counseling'
+        trackCTAClick: (destination = 'counseling') => sendEvent('work_cta_click', {
+            destination: destination
         }),
         trackAbandon: (lastStep) => sendEvent('work_abandon', {
             last_step: lastStep

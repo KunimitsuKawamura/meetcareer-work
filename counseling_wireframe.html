@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>無料相談会予約ページ ワイヤーフレーム（Quick Wins適用後）</title>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            color: #333;
+            background: #f5f5f5;
+            line-height: 1.7;
+        }
+
+        /* === Wireframe annotation badge === */
+        .annotation {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #2E7D32;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+            position: absolute;
+            z-index: 10;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .annotation.change {
+            background: #E65100;
+        }
+
+        .annotation-outline {
+            position: relative;
+        }
+
+        .annotation-outline::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border: 2.5px dashed #2E7D32;
+            border-radius: 8px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .annotation-outline.change::before {
+            border-color: #E65100;
+        }
+
+        /* === HEADER === */
+        .header {
+            background: #fff;
+            padding: 16px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #324451;
+        }
+
+        .header-logo svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .header-logo span {
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            color: #666;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .header-nav a {
+            color: #324451;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .header-cta {
+            background: #EBA849;
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 32px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+        }
+
+        /* === HERO === */
+        .hero {
+            position: relative;
+            height: 320px;
+            background: linear-gradient(135deg, rgba(50, 68, 81, 0.65), rgba(50, 68, 81, 0.45)),
+                url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 80px;
+            color: #fff;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 14px;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 16px;
+            font-weight: 400;
+            opacity: 0.92;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero .annotation {
+            top: 20px;
+            right: 20px;
+        }
+
+        /* === PAGE LABEL === */
+        .page-label {
+            background: #324451;
+            color: #EBA849;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        /* === FLOW SECTION === */
+        .flow-section {
+            background: #fff;
+            padding: 64px 80px;
+        }
+
+        .section-label {
+            color: #EBA849;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #324451;
+            margin-bottom: 40px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+        }
+
+        .step {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .step-icon {
+            flex-shrink: 0;
+            width: 120px;
+            height: 120px;
+            background: #FFF8EC;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-number {
+            color: #EBA849;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #324451;
+            margin-bottom: 8px;
+        }
+
+        .step-desc {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        /* === MEDIA LOGOS (NEW) === */
+        .media-section {
+            background: #fff;
+            padding: 48px 80px;
+            position: relative;
+            text-align: center;
+        }
+
+        .media-section .section-title {
+            margin-bottom: 32px;
+        }
+
+        .media-logos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 32px 48px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .media-logos img {
+            height: 36px;
+            width: auto;
+            object-fit: contain;
+            opacity: 0.7;
+            filter: grayscale(30%);
+            transition: opacity 0.2s;
+        }
+
+        .media-logos img:hover {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+
+        /* === TESTIMONIALS (NEW) === */
+        .testimonials-section {
+            background: #FAFAF7;
+            padding: 64px 80px;
+            position: relative;
+        }
+
+        .testimonials-section .annotation {
+            top: 20px;
+            right: 20px;
+        }
+
+        .testimonial-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 8px;
+        }
+
+        .testimonial-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '\201C';
+            position: absolute;
+            top: 16px;
+            left: 24px;
+            font-size: 56px;
+            color: #EBA849;
+            line-height: 1;
+            opacity: 0.3;
+            font-family: Georgia, serif;
+        }
+
+        .testimonial-text {
+            font-size: 15px;
+            color: #444;
+            line-height: 1.9;
+            margin-bottom: 20px;
+            padding-left: 8px;
+            border-left: 3px solid #EBA849;
+            padding-top: 4px;
+        }
+
+        .testimonial-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-avatar {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #EBA849, #d9913a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .testimonial-attr {
+            font-size: 13px;
+            color: #888;
+            line-height: 1.5;
+        }
+
+        .testimonial-attr strong {
+            color: #555;
+            font-weight: 600;
+        }
+
+        /* === FORM SECTION === */
+        .form-section {
+            background: linear-gradient(180deg, #e8ecf0 0%, #dde3e8 100%);
+            padding: 64px 80px;
+        }
+
+        .form-container {
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #EBA849;
+            margin-bottom: 20px;
+        }
+
+        /* 3-point badge (NEW) */
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .trust-badges .annotation {
+            top: -28px;
+            right: -12px;
+        }
+
+        .trust-badge {
+            background: #FFF8EC;
+            border: 1.5px solid #EBA849;
+            color: #8B6914;
+            padding: 8px 18px;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .trust-badge .check {
+            color: #EBA849;
+            font-weight: 800;
+            font-size: 15px;
+        }
+
+        /* Form fields */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .form-label .required {
+            color: #e53935;
+            margin-left: 2px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 15px;
+            font-family: inherit;
+            background: #f9f9f9;
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 15px;
+            font-family: inherit;
+            min-height: 120px;
+            resize: vertical;
+            background: #f9f9f9;
+        }
+
+        .form-note {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .form-confirm {
+            margin-bottom: 24px;
+        }
+
+        .form-confirm-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+            line-height: 1.6;
+        }
+
+        .form-confirm-desc {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .form-radio,
+        .form-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .form-radio input,
+        .form-checkbox input {
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .form-privacy {
+            margin: 20px 0;
+        }
+
+        .form-privacy a {
+            color: #EBA849;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-submit {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            margin: 32px auto 0;
+            padding: 16px 0;
+            background: #EBA849;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: opacity 0.2s;
+        }
+
+        .form-submit:hover {
+            opacity: 0.88;
+        }
+
+        /* === FOOTER === */
+        .footer {
+            background: #fff;
+            padding: 40px 80px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .footer-logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .footer-logo span {
+            font-size: 16px;
+            color: #999;
+            letter-spacing: 2px;
+        }
+
+        .footer-copy {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        /* === Responsive === */
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 20px;
+            }
+
+            .header-nav {
+                display: none;
+            }
+
+            .hero {
+                height: 260px;
+                padding: 0 24px;
+            }
+
+            .hero h1 {
+                font-size: 22px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .flow-section,
+            .media-section,
+            .testimonials-section,
+            .form-section {
+                padding: 40px 24px;
+            }
+
+            .step {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 16px;
+            }
+
+            .step-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 28px;
+            }
+
+            .testimonial-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-badges {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section-title {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Page Label -->
+    <div class="page-label">📐 WIREFRAME — Quick Wins 適用後の無料相談会予約ページ</div>
+
+    <!-- HEADER -->
+    <header class="header">
+        <a href="#" class="header-logo">
+            <svg viewBox="0 0 40 40">
+                <circle cx="20" cy="20" r="18" fill="none" stroke="#c9a84c" stroke-width="2" />
+                <circle cx="20" cy="14" r="6" fill="none" stroke="#c9a84c" stroke-width="2" />
+                <path d="M8 34c0-8 5.5-14 12-14s12 6 12 14" fill="none" stroke="#c9a84c" stroke-width="2" />
+            </svg>
+            <span>meetcareer</span>
+        </a>
+        <ul class="header-nav">
+            <li><a href="#">ミートキャリアが選ばれる理由</a></li>
+            <li><a href="#">サービス概要</a></li>
+            <li><a href="#">トレーナー紹介</a></li>
+            <li><a href="#">ユーザーインタビュー</a></li>
+        </ul>
+        <button class="header-cta">まずは無料相談会へ</button>
+    </header>
+
+    <!-- =============================== -->
+    <!-- HERO — Quick Win ① 見出し変更 -->
+    <!-- =============================== -->
+    <section class="hero annotation-outline change">
+        <span class="annotation change" style="top: 16px; right: 16px;">★ CHANGE — Quick Win ①</span>
+        <h1>1時間の無料相談で、<br>モヤモヤを"言葉"にしませんか？</h1>
+        <p>有料キャリア支援実績6,000件以上。キャリアのプロがあなたの悩みを整理します。</p>
+    </section>
+
+    <!-- =============================== -->
+    <!-- FLOW — 既存セクション（変更なし） -->
+    <!-- =============================== -->
+    <section class="flow-section">
+        <div class="section-label">FLOW</div>
+        <h2 class="section-title">無料相談会の流れ</h2>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-icon">🗣️</div>
+                <div class="step-content">
+                    <div class="step-number">STEP 01</div>
+                    <div class="step-title">今の仕事に対するお悩みやモヤモヤをお話しください</div>
+                    <div class="step-desc">今の仕事や働き方などについて、悩んでいることをお聞かせください。適宜ご質問をさせていただきながら、悩まれているポイントを一緒に明らかにしていきます。
+                    </div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-icon">💡</div>
+                <div class="step-content">
+                    <div class="step-number">STEP 02</div>
+                    <div class="step-title">働き方についてのアドバイス</div>
+                    <div class="step-desc">これまでの有料キャリア支援6,000件以上の実績をもとに、今後のキャリアや働き方についてアドバイスをさせていただきます。</div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-icon">✨</div>
+                <div class="step-content">
+                    <div class="step-number">STEP 03</div>
+                    <div class="step-title">ミートキャリアのサービスのご説明</div>
+                    <div class="step-desc">ご希望の場合のみ、ミートキャリアのサービスについてご説明いたします。</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- MEDIA LOGOS — 掲載メディア（NEW）             -->
+    <!-- ============================================= -->
+    <section class="media-section annotation-outline">
+        <span class="annotation" style="top: 16px; right: 16px;">★ NEW — 掲載メディア</span>
+        <div class="section-label">MEDIA</div>
+        <h2 class="section-title">掲載メディア</h2>
+
+        <div class="media-logos">
+            <img src="https://storage.googleapis.com/studio-design-asset-files/projects/65qmDLXROV/s-654x200_v-fs_webp_db5d6e2c-aa95-4fb4-aacf-c75ca9e9ddad_small.webp"
+                alt="AbemaTV">
+            <img src="https://storage.googleapis.com/studio-design-asset-files/projects/65qmDLXROV/s-370x200_webp_2d9f6a4e-9c9f-4b57-8b78-9083b158d655.webp"
+                alt="ノンストップ!">
+            <img src="https://storage.googleapis.com/studio-design-asset-files/projects/65qmDLXROV/s-521x200_webp_e4c4e5f3-7076-4663-82d4-b2e04813103e.webp"
+                alt="an・an">
+            <img src="https://storage.googleapis.com/studio-design-asset-files/projects/65qmDLXROV/s-530x232_webp_d9140b10-48bb-4e9b-9abd-031c2f429684.webp"
+                alt="日経xwoman">
+            <img src="https://storage.googleapis.com/studio-design-asset-files/projects/65qmDLXROV/s-309x200_webp_e9f056fe-625c-48e9-ae16-5aab429afb8b.webp"
+                alt="マイナビ子育て">
+            <img src="https://storage.googleapis.com/studio-design-asset-files/projects/65qmDLXROV/s-339x200_webp_b93664b5-337f-44cf-879b-7310311e452a.webp"
+                alt="LIFULL STORIES">
+            <img src="https://storage.googleapis.com/studio-design-asset-files/projects/65qmDLXROV/s-520x133_webp_a0e20b7b-69d2-4642-ab16-6b921bc84d2a.webp"
+                alt="日本経済新聞">
+            <img src="https://storage.googleapis.com/studio-design-asset-files/projects/65qmDLXROV/s-480x240_webp_e98cf2e8-8ea0-40c9-b29e-08e8597d0539.webp"
+                alt="東洋経済ONLINE">
+            <img src="https://storage.googleapis.com/studio-design-asset-files/projects/65qmDLXROV/s-480x144_webp_a3cefe8e-bef0-4935-8240-d318aebb3be5.webp"
+                alt="日本の人事部">
+        </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- TESTIMONIALS — Quick Win ③ 参加者の声（NEW） -->
+    <!-- ============================================= -->
+    <section class="testimonials-section annotation-outline">
+        <span class="annotation" style="top: 16px; right: 16px;">★ NEW — Quick Win ③</span>
+        <div class="section-label">VOICE</div>
+        <h2 class="section-title">参加者の声</h2>
+
+        <div class="testimonial-cards">
+            <!-- 感想① -->
+            <div class="testimonial-card">
+                <div class="testimonial-text">
+                    普段感じてるもやもやを言語化するきっかけになったり、今後考えていくと良いことなどを知れて、大変勉強になりました。
+                </div>
+                <div class="testimonial-meta">
+                    <div class="testimonial-avatar">A</div>
+                    <div class="testimonial-attr">
+                        <strong>40代女性</strong><br>
+                        総合職 / お子さん2名
+                    </div>
+                </div>
+            </div>
+
+            <!-- 感想② -->
+            <div class="testimonial-card">
+                <div class="testimonial-text">
+                    色々お話を聞いていただき、前向きな気持ちで一歩踏み出したいなと思えるようになりました。
+                </div>
+                <div class="testimonial-meta">
+                    <div class="testimonial-avatar">B</div>
+                    <div class="testimonial-attr">
+                        <strong>30代女性</strong><br>
+                        営業職 / お子さん1名
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- FORM — Quick Win ② 安心3点セット（NEW）    -->
+    <!-- ============================================ -->
+    <section class="form-section">
+        <div class="form-container">
+            <h2 class="form-title">無料相談会のご予約</h2>
+
+            <!-- 安心3点セット -->
+            <div class="trust-badges annotation-outline">
+                <span class="annotation" style="top: -32px; right: -8px;">★ NEW — Quick Win ②</span>
+                <div class="trust-badge"><span class="check">✓</span>完全無料</div>
+                <div class="trust-badge"><span class="check">✓</span>オンライン1時間</div>
+                <div class="trust-badge"><span class="check">✓</span>ご希望の方のみサービスのご案内</div>
+            </div>
+
+            <!-- Form -->
+            <div class="form-group">
+                <label class="form-label">姓<span class="required">*</span></label>
+                <input type="text" class="form-input" placeholder="">
+            </div>
+            <div class="form-group">
+                <label class="form-label">名<span class="required">*</span></label>
+                <input type="text" class="form-input" placeholder="">
+            </div>
+            <div class="form-group">
+                <label class="form-label">カナ氏名<span class="required">*</span></label>
+                <input type="text" class="form-input" placeholder="">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Eメール<span class="required">*</span></label>
+                <input type="email" class="form-input" placeholder="">
+            </div>
+            <div class="form-group">
+                <label class="form-label">当日相談したい内容を具体的に教えてください。</label>
+                <div class="form-note">担当カウンセラー事前に確認するため、ご自身の状況や背景を詳しくお聞かせください</div>
+                <textarea class="form-textarea"></textarea>
+            </div>
+
+            <div class="form-confirm">
+                <div class="form-confirm-title">確認事項｜ミートキャリアは転職エージェントではないため、求人紹介は行なっておりません。<span
+                        style="color:#e53935">*</span></div>
+                <div class="form-confirm-desc">有料サービスとして、自己分析/適職発見/キャリアプランニング/転職活動をご支援しています</div>
+                <label class="form-radio">
+                    <input type="radio" name="confirm">
+                    <span>確認しました</span>
+                </label>
+            </div>
+
+            <div class="form-privacy">
+                <a href="#">株式会社fruorプライバシーポリシー</a>
+            </div>
+
+            <label class="form-checkbox">
+                <input type="checkbox">
+                <span>キャリアに関する情報提供やお得なキャンペーン情報のご案内をいたします<span style="color:#e53935">*</span></span>
+            </label>
+            <label class="form-checkbox">
+                <input type="checkbox">
+                <span>無料キャリアカウンセリングやプログラム受講に関するご連絡をいたします<span style="color:#e53935">*</span></span>
+            </label>
+
+            <button class="form-submit">フォーム送信して日程調整する</button>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <ul class="footer-links">
+            <li><a href="#">お問い合わせ</a></li>
+            <li><a href="#">運営会社</a></li>
+            <li><a href="#">利用規約</a></li>
+            <li><a href="#">プライバシーポリシー</a></li>
+            <li><a href="#">特定商取引法に基づく表示</a></li>
+        </ul>
+        <div class="footer-logo">
+            <svg viewBox="0 0 40 40" width="32" height="32">
+                <circle cx="20" cy="20" r="18" fill="none" stroke="#c9a84c" stroke-width="2" />
+                <circle cx="20" cy="14" r="6" fill="none" stroke="#c9a84c" stroke-width="2" />
+                <path d="M8 34c0-8 5.5-14 12-14s12 6 12 14" fill="none" stroke="#c9a84c" stroke-width="2" />
+            </svg>
+            <span>meetcareer</span>
+        </div>
+        <div class="footer-copy">© 2025 fruor Inc.</div>
+    </footer>
+
+</body>
+
+</html>

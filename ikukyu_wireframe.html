@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>育休メンターLP ワイヤーフレーム（CTA改修後）</title>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            color: #333;
+            background: #f5f5f0;
+            line-height: 1.7;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* === Wireframe annotation badge === */
+        .annotation {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #2E7D32;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.3px;
+            z-index: 10;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .annotation.change {
+            background: #E65100;
+        }
+
+        .annotation.remove {
+            background: #c62828;
+        }
+
+        .annotation.new {
+            background: #1565C0;
+        }
+
+        .annotation-bar {
+            padding: 6px 12px;
+            margin-bottom: 4px;
+        }
+
+        .annotation-outline {
+            position: relative;
+        }
+
+        .annotation-outline::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border: 2.5px dashed #2E7D32;
+            border-radius: 8px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .annotation-outline.change::before {
+            border-color: #E65100;
+        }
+
+        .annotation-outline.remove::before {
+            border-color: #c62828;
+        }
+
+        .annotation-outline.new::before {
+            border-color: #1565C0;
+        }
+
+        /* === PAGE LABEL === */
+        .page-label {
+            background: #324451;
+            color: #EBA849;
+            text-align: center;
+            padding: 10px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            line-height: 1.5;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+        }
+
+        /* === STICKY CTA (left side on original) → changed === */
+        .sticky-cta {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(8px);
+            padding: 10px 16px;
+            box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.1);
+            z-index: 150;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .sticky-cta-btn {
+            flex: 1;
+            padding: 10px 6px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .sticky-cta-btn.primary {
+            background: #EBA849;
+            color: #fff;
+        }
+
+        .sticky-cta-btn.secondary {
+            background: #fff;
+            color: #EBA849;
+            border: 2px solid #EBA849;
+        }
+
+        .sticky-cta-btn.tertiary {
+            background: #324451;
+            color: #fff;
+        }
+
+        /* === HERO === */
+        .hero {
+            background: linear-gradient(135deg, #f8f4ec 0%, #fdf9f0 100%);
+            padding: 32px 20px 24px;
+            position: relative;
+        }
+
+        .hero-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .hero-logo-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #c9a84c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .hero-logo-text {
+            font-size: 14px;
+            color: #666;
+            letter-spacing: 2px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #EBA849;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .hero-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #324451;
+            line-height: 1.3;
+            margin-bottom: 12px;
+        }
+
+        .hero-subtitle {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .hero-photo {
+            width: 100%;
+            height: 140px;
+            background: #e0d8cc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 13px;
+        }
+
+        /* === SECTION STYLES === */
+        .section {
+            background: #fff;
+            padding: 40px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section-alt {
+            background: #faf8f3;
+        }
+
+        .section-label {
+            color: #EBA849;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #324451;
+            text-align: center;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        .section-desc {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* === EMPATHY SECTION (unchanged) === */
+        .empathy-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: #324451;
+            text-align: center;
+            line-height: 1.8;
+            padding: 20px 0;
+        }
+
+        .empathy-text span {
+            color: #EBA849;
+        }
+
+        /* === BEFORE / AFTER (unchanged) === */
+        .ba-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .ba-item {
+            background: #f8f5ee;
+            padding: 16px 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .ba-item .arrow {
+            position: absolute;
+            right: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #EBA849;
+            font-size: 16px;
+        }
+
+        /* === ARCHIVE VIDEO SECTION (NEW) === */
+        .video-section {
+            background: #324451;
+            padding: 40px 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .video-section .section-label {
+            color: #EBA849;
+        }
+
+        .video-section .section-title {
+            color: #fff;
+        }
+
+        .video-player {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #1a2a35;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-player .play-btn {
+            width: 64px;
+            height: 64px;
+            background: rgba(235, 168, 73, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .video-player .video-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 16px;
+        }
+
+        .video-cta-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+        }
+
+        /* === SERVICE CONTENT (unchanged) === */
+        .service-img {
+            width: 100%;
+            height: 160px;
+            background: #e8e0d4;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 13px;
+        }
+
+        .service-badge {
+            display: inline-block;
+            background: #EBA849;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .service-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #324451;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        /* === PRICING (unchanged) === */
+        .pricing-box {
+            background: linear-gradient(135deg, #fff8ec, #fef5e0);
+            border: 2px solid #EBA849;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+
+        .pricing-label {
+            display: inline-block;
+            background: #EBA849;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .pricing-main {
+            font-size: 14px;
+            color: #324451;
+            margin-bottom: 8px;
+        }
+
+        .pricing-main strong {
+            font-size: 28px;
+        }
+
+        .pricing-detail {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* === SUPPORT FLOW (unchanged) === */
+        .flow-step {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            align-items: flex-start;
+        }
+
+        .flow-step-num {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: #EBA849;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .flow-step-content {
+            flex: 1;
+        }
+
+        .flow-step-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #324451;
+            margin-bottom: 4px;
+        }
+
+        .flow-step-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .flow-arrow {
+            text-align: center;
+            color: #EBA849;
+            font-size: 20px;
+            margin: -12px 0;
+            padding-left: 16px;
+        }
+
+        /* === FEATURES (unchanged) === */
+        .feature-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .feature-highlight {
+            display: inline-block;
+            background: linear-gradient(transparent 60%, rgba(235, 168, 73, 0.3) 60%);
+            font-weight: 700;
+            color: #324451;
+            font-size: 16px;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .feature-img {
+            width: 100%;
+            height: 120px;
+            background: #e8e0d4;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 13px;
+        }
+
+        /* === CTA BLOCKS (NEW) === */
+        .cta-section {
+            background: linear-gradient(180deg, #fdf6e9 0%, #fff8ec 100%);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .cta-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            position: relative;
+        }
+
+        .cta-card.primary {
+            border: 3px solid #EBA849;
+        }
+
+        .cta-card.secondary {
+            border: 2px solid #d4c5a0;
+        }
+
+        .cta-recommend {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #e74c3c;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 16px;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+
+        .cta-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .cta-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #324451;
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+
+        .cta-subtitle {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 12px;
+        }
+
+        .cta-price {
+            font-size: 14px;
+            color: #324451;
+            margin-bottom: 12px;
+        }
+
+        .cta-price strong {
+            font-size: 26px;
+            color: #e74c3c;
+        }
+
+        .cta-price .tax {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .cta-benefits {
+            text-align: left;
+            margin-bottom: 16px;
+        }
+
+        .cta-benefit {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .cta-benefit .check {
+            color: #EBA849;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .cta-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            letter-spacing: 0.5px;
+        }
+
+        .cta-btn.orange {
+            background: #EBA849;
+            color: #fff;
+        }
+
+        .cta-btn.dark {
+            background: #324451;
+            color: #fff;
+        }
+
+        .cta-btn.outline {
+            background: #fff;
+            color: #EBA849;
+            border: 2px solid #EBA849;
+        }
+
+        .cta-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 8px 0;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .cta-divider::before,
+        .cta-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #ddd;
+        }
+
+        /* === SELF DIAGNOSIS (unchanged) === */
+        .diagnosis-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid #EBA849;
+        }
+
+        .diagnosis-num {
+            color: #EBA849;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .diagnosis-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #324451;
+            margin-bottom: 8px;
+        }
+
+        .diagnosis-check {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .diagnosis-result {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed #ddd;
+            font-size: 13px;
+            color: #EBA849;
+            font-weight: 700;
+        }
+
+        /* === TRAINER PROFILES (unchanged) === */
+        .trainer-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .trainer-photo {
+            width: 100%;
+            height: 200px;
+            background: #e0d8cc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 13px;
+        }
+
+        .trainer-info {
+            padding: 20px;
+        }
+
+        .trainer-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #324451;
+            margin-bottom: 4px;
+        }
+
+        .trainer-title-text {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .trainer-desc {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        /* === FAQ (unchanged) === */
+        .faq-item {
+            background: #fff;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .faq-q {
+            font-size: 14px;
+            font-weight: 700;
+            color: #324451;
+            margin-bottom: 8px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .faq-q .q-mark {
+            color: #EBA849;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .faq-a {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.7;
+            padding-left: 24px;
+        }
+
+        /* === INLINE CTA (NEW) === */
+        .inline-cta {
+            background: linear-gradient(135deg, #EBA849, #d99a3a);
+            padding: 24px 20px;
+            text-align: center;
+            border-radius: 0;
+        }
+
+        .inline-cta-text {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .inline-cta .cta-btn {
+            background: #fff;
+            color: #EBA849;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        /* === FOOTER === */
+        .footer {
+            background: #324451;
+            color: #fff;
+            padding: 32px 20px 100px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 16px;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            color: #c9a84c;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .footer-copy {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* === REMOVED INDICATOR === */
+        .removed-section {
+            background: #fde7e7;
+            padding: 20px;
+            text-align: center;
+            border: 2px dashed #c62828;
+            margin: 0;
+        }
+
+        .removed-section p {
+            color: #c62828;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .removed-section .detail {
+            font-weight: 400;
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        /* === 3MIN WORK CTA === */
+        .work-cta-section {
+            background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+            padding: 32px 20px;
+            text-align: center;
+        }
+
+        .work-cta-icon {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        .work-cta-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2E7D32;
+            margin-bottom: 8px;
+        }
+
+        .work-cta-desc {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .work-cta-btn {
+            display: inline-block;
+            background: #2E7D32;
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 32px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* === MID CTA SMALL === */
+        .mid-cta {
+            background: #fff;
+            padding: 24px 20px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .mid-cta-btn {
+            flex: 1;
+            padding: 12px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            text-align: center;
+            line-height: 1.4;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Page Label -->
+    <div class="page-label">
+        📐 WIREFRAME — 育休メンターLP（CTA改修後）<br>
+        Peatixセミナー予約 → 3種CTA + アーカイブ動画
+    </div>
+
+    <!-- ===================================== -->
+    <!-- HERO SECTION (変更あり)               -->
+    <!-- ===================================== -->
+    <div class="hero">
+        <div class="hero-logo">
+            <div class="hero-logo-circle">👤</div>
+            <span class="hero-logo-text">meetcareer</span>
+        </div>
+        <div class="hero-badge">ミートキャリアから Newプラン登場！</div>
+        <h1 class="hero-title">育休<br>メンター</h1>
+
+        <!-- CHANGED: Sticky CTA text changed -->
+        <div class="annotation-bar">
+            <span class="annotation change">★ CHANGE — 固定CTAのテキスト変更</span>
+        </div>
+    </div>
+
+    <!-- Empathy copy (unchanged) -->
+    <div class="section">
+        <div class="empathy-text">
+            育休という時間を使い<br>
+            今の<span>わたし</span>を見つめ直し<br>
+            歩き出してみませんか
+        </div>
+        <div style="text-align: center; margin: 16px 0;">
+            <span
+                style="display: inline-block; background: #324451; color: #fff; font-size: 13px; font-weight: 700; padding: 8px 20px; border-radius: 6px; letter-spacing: 0.5px; line-height: 1.5;">
+                📊 有料キャリア支援実績<span style="color: #EBA849; font-size: 18px;">6,000</span>件以上。<br>キャリアのプロがあなたの悩みを整理します。
+            </span>
+        </div>
+        <p class="section-desc" style="text-align: center; font-size: 13px;">
+            ミートキャリアのキャリアトレーナーが「育休メンター」となり、あなたのキャリアに伴走するサブスクリプションサービスです。
+        </p>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- REMOVED: Seminar Banner (top)         -->
+    <!-- ===================================== -->
+    <div class="removed-section annotation-outline remove">
+        <span class="annotation remove" style="position: absolute; top: -12px; right: 8px;">✕ REMOVE</span>
+        <p>❌ セミナーバナー（削除）</p>
+        <p class="detail">旧: 「思っていた通りに進まないときの…」3/12セミナーバナー</p>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- NEW: Archive Video Section            -->
+    <!-- ===================================== -->
+    <div class="video-section annotation-outline new" style="position: relative;">
+        <span class="annotation new" style="position: absolute; top: 8px; right: 8px;">★ NEW — アーカイブ動画</span>
+        <div class="section-label">Seminar Archive</div>
+        <h2 class="section-title" style="font-size: 20px;">
+            育休メンターセミナー<br>アーカイブ動画
+        </h2>
+
+        <div class="video-player">
+            <div class="play-btn">▶</div>
+            <div class="video-label">セミナー動画を再生する</div>
+        </div>
+
+        <div class="video-meta">
+            <span>🕐 約50分</span>
+            <span>💻 オンライン開催</span>
+            <span>🆓 視聴無料</span>
+        </div>
+
+        <p class="video-cta-text">
+            「思っていた通りに進まないときの、<br>キャリアとの向き合い方」<br>
+            <span style="font-size: 12px; opacity: 0.7;">※ 2026年2月19日開催セミナーのアーカイブ</span>
+        </p>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- NEW: 3分ワーク CTA (Video直下)        -->
+    <!-- ===================================== -->
+    <div class="work-cta-section annotation-outline new" style="position: relative;">
+        <span class="annotation new" style="position: absolute; top: 8px; right: 8px;">★ NEW — 3分ワークCTA</span>
+        <div class="work-cta-icon">✍️</div>
+        <div class="work-cta-title">まずは3分、今の自分に気づく</div>
+        <p class="work-cta-desc">
+            動画で話していた「自分の価値観の整理」を<br>
+            3分のセルフワークで体験できます。<br>
+            <span style="font-size: 12px; color: #888;">※ 結果画面で「プロと深掘り」の相談もできます</span>
+        </p>
+        <button class="work-cta-btn">3分ワークを始める →</button>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Before / After (unchanged)            -->
+    <!-- ===================================== -->
+    <div class="section">
+        <div class="section-title">育休メンター Before → After</div>
+        <div class="ba-grid">
+            <div class="ba-item">育休復帰後の<br>キャリアが不安</div>
+            <div class="ba-item">優先したいことを<br>明確にできる</div>
+            <div class="ba-item">このままの働き方で良<br>いのかわからない</div>
+            <div class="ba-item">具体的にどう行動すれ<br>ば良いかわかる</div>
+            <div class="ba-item">育休中のうちにこれか<br>らのキャリアを考えて<br>おきたい</div>
+            <div class="ba-item">プロと一緒に<br>キャリアの相談し<br>ができる</div>
+        </div>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Service Content (unchanged)           -->
+    <!-- ===================================== -->
+    <div class="section">
+        <div class="section-label">Service</div>
+        <h2 class="section-title">サービス内容</h2>
+
+        <div class="service-img">📷 セッション風景の写真</div>
+
+        <div class="service-badge">育休メンター</div>
+        <h3 class="service-title">月1回 50分間の<br>オンラインセッション</h3>
+        <p class="section-desc" style="font-size: 13px;">
+            毎月1回、担当のキャリアトレーナーとテーマを決めてセッションを行います。
+            「お子様同席OK」「すっぴんOK」ご自宅からリラックスして参加いただけます。
+        </p>
+
+        <div class="pricing-box">
+            <div class="pricing-label">料金</div>
+            <div class="pricing-main">
+                入会金 <strong>55,000</strong>円<span style="font-size: 12px;">（税込）</span> ＋ 月額
+                <strong>16,500</strong>円<span style="font-size: 12px;">（税込）</span>
+            </div>
+            <div class="pricing-detail">
+                📅 セッションの曜日・時間帯<br>
+                [平日] 10時〜21時 開始 / [土曜] 9時〜21時 開始<br><br>
+                📋 ご予約方法<br>
+                都度予約。セッションの24時間前までのご連絡で日程変更可能<br><br>
+                ⏳ セッション有効期限<br>
+                お支払い日より45日間
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Support Flow (unchanged)              -->
+    <!-- ===================================== -->
+    <div class="section section-alt">
+        <div class="section-title">サポートの流れ</div>
+
+        <div class="flow-step">
+            <div class="flow-step-num">1</div>
+            <div class="flow-step-content">
+                <div class="flow-step-title">今の自分を整理する</div>
+                <div class="flow-step-desc">
+                    感情の整理と現状把握し、"モヤモヤ"を見える化をします。
+                </div>
+            </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-step">
+            <div class="flow-step-num">2</div>
+            <div class="flow-step-content">
+                <div class="flow-step-title">働く理由を再発見する</div>
+                <div class="flow-step-desc">
+                    価値観と動機を言語化し、過去の自分から"Will"を見つけていきます。
+                </div>
+            </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-step">
+            <div class="flow-step-num">3</div>
+            <div class="flow-step-content">
+                <div class="flow-step-title">キャリアの軌跡をたどる</div>
+                <div class="flow-step-desc">
+                    スキルと強みを可視化し、"できる"を取り戻します。
+                </div>
+            </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-step">
+            <div class="flow-step-num">4</div>
+            <div class="flow-step-content">
+                <div class="flow-step-title">これからの私を描く</div>
+                <div class="flow-step-desc">
+                    キャリアビジョンを描き、"未来の働く姿"をイメージします。
+                </div>
+            </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-step">
+            <div class="flow-step-num">5</div>
+            <div class="flow-step-content">
+                <div class="flow-step-title">小さな一歩を決める</div>
+                <div class="flow-step-desc">
+                    行動意欲を引き出し、実際に"行動"につなげます。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- MID-PAGE CTA (NEW)                    -->
+    <!-- ===================================== -->
+    <div class="inline-cta annotation-outline new" style="position: relative;">
+        <span class="annotation new" style="position: absolute; top: 8px; right: 8px;">★ NEW — 中間CTA</span>
+        <div class="inline-cta-text">
+            サポートの流れがわかったら<br>
+            まずは体験してみませんか？
+        </div>
+        <button class="cta-btn" style="max-width: 320px; margin: 0 auto;">
+            🎯 体験セッションを予約する
+        </button>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Service Features (unchanged)          -->
+    <!-- ===================================== -->
+    <div class="section section-alt">
+        <div class="section-title">サービスの特徴</div>
+
+        <div class="feature-card">
+            <div class="feature-img">📷 トレーナー写真</div>
+            <div class="feature-highlight">キャリアトレーナーも現役ママ。<br>気持ちに寄り添うサポート</div>
+            <p class="section-desc" style="font-size: 13px;">
+                セッションを担当するキャリアトレーナーは、子育て中の現役ママ。自身の経験と、国家資格キャリアコンサルタントとしての専門知識を活かし、気持ちに寄り添いながらキャリアの整理を行います。
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-img">📷 ワークシート画像</div>
+            <div class="feature-highlight">オリジナルワークシートで<br>内容・言語化もサポート</div>
+            <p class="section-desc" style="font-size: 13px;">
+                国家資格キャリアコンサルタント監修のもと、6,000件以上のキャリア支援で培ったノウハウを凝縮したオリジナルワークシートを使用。内省や言語化が苦手な方でも取り組みやすい設計です。
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-highlight">状況に合わせたマンツーマン支援</div>
+            <p class="section-desc" style="font-size: 13px;">
+                マンツーマン形式のため、育休中・復職後など、その時々の悩みや状況に合わせて、オンラインセッションのテーマを柔軟に設定できます。
+            </p>
+        </div>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- REMOVED: Seminar Section (mid-page)   -->
+    <!-- ===================================== -->
+    <div class="removed-section annotation-outline remove" style="position: relative;">
+        <span class="annotation remove" style="position: absolute; top: -12px; right: 8px;">✕ REMOVE</span>
+        <p>❌ セミナー開催セクション（削除）</p>
+        <p class="detail">旧: 「育休メンターのセミナー開催決定！」セクション<br>
+            Peatixへの「ご予約はこちらから」ボタン</p>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Self Diagnosis (unchanged)            -->
+    <!-- ===================================== -->
+    <div class="section section-alt">
+        <div class="section-label">Check!</div>
+        <h2 class="section-title">＼キャリア整理／<br>育休中のセルフ診断</h2>
+        <p class="section-desc" style="text-align: center; font-size: 13px;">
+            次の問いに答えてみてください。あてはまるものが多い項目が、あなたが整理したいキャリアのテーマです。
+        </p>
+
+        <div class="diagnosis-card">
+            <div class="diagnosis-num">①価値観</div>
+            <div class="diagnosis-title">自分の大事にしたいものを見つめたい人</div>
+            <div class="diagnosis-check">☑ 子どもとの時間とキャリアの両立で気持ちが揺れる</div>
+            <div class="diagnosis-check">☑ 収入・やりがい・安定など、どれを優先するか決められない</div>
+            <div class="diagnosis-check">☑ 「そもそも自分は何を大事にしたいんだろう？」とよく思う</div>
+            <div class="diagnosis-result">チェックが多ければ… 「価値観の棚卸し」が必要。</div>
+        </div>
+
+        <div class="diagnosis-card">
+            <div class="diagnosis-num">②選択肢</div>
+            <div class="diagnosis-title">働き方や方向性を見極めたい人</div>
+            <div class="diagnosis-check">☑ 復職か転職か、どちらがいいか決められない</div>
+            <div class="diagnosis-check">☑ フルタイムか時短か、働き方を選べず悩んでいる</div>
+            <div class="diagnosis-check">☑ 管理職を目指すか、専門職を深めるか決まっていない</div>
+            <div class="diagnosis-result">チェックが多ければ… 「選択肢の整理」が必要。</div>
+        </div>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- MAIN CTA SECTION (NEW - 3 patterns)   -->
+    <!-- ===================================== -->
+    <div class="cta-section annotation-outline new" style="position: relative;">
+        <span class="annotation new" style="position: absolute; top: 8px; right: 8px;">★ NEW — 3種CTA</span>
+
+        <div class="section-label">Next Step</div>
+        <h2 class="section-title" style="margin-bottom: 8px;">あなたに合った<br>はじめ方を選べます</h2>
+        <p style="font-size: 13px; color: #888; margin-bottom: 24px;">ご希望に合わせて、3つの入口をご用意</p>
+
+        <!-- CTA 1: 体験セッション -->
+        <div class="cta-card primary">
+            <div class="cta-recommend">🔥 おすすめ</div>
+            <div class="cta-icon">🎯</div>
+            <div class="cta-title">育休メンター<br>体験セッション</div>
+            <div class="cta-subtitle">まずは1回、プロのセッションを体験</div>
+            <div class="cta-price">
+                <strong>3,300</strong>円 <span class="tax">（税込）</span> / 50分
+            </div>
+            <div class="cta-benefits">
+                <div class="cta-benefit"><span class="check">✓</span> キャリアトレーナーとの1on1セッション</div>
+                <div class="cta-benefit"><span class="check">✓</span> オンライン・お子様同席OK</div>
+                <div class="cta-benefit"><span class="check">✓</span> 入会を決める前にサービスを実感</div>
+                <div class="cta-benefit"><span class="check">✓</span> 体験だけでもキャリアの気づきが得られる</div>
+            </div>
+            <button class="cta-btn orange">体験セッションを予約する →</button>
+        </div>
+
+        <div class="cta-divider">または</div>
+
+        <!-- CTA 2: 3分ワーク -->
+        <div class="cta-card secondary">
+            <div class="cta-icon">✍️</div>
+            <div class="cta-title">3分ワークで<br>自分を知る</div>
+            <div class="cta-subtitle">「まだ相談は早い」と思う方へ</div>
+            <div class="cta-price" style="color: #2E7D32;">
+                <strong style="color: #2E7D32;">無料</strong> / 3分
+            </div>
+            <div class="cta-benefits">
+                <div class="cta-benefit"><span class="check">✓</span> スマホで3分、いつでもどこでも</div>
+                <div class="cta-benefit"><span class="check">✓</span> 今のキャリアの悩みが可視化される</div>
+                <div class="cta-benefit"><span class="check">✓</span> 結果を見てから次を考えられる</div>
+            </div>
+            <button class="cta-btn dark">3分ワークを始める →</button>
+        </div>
+
+        <div class="cta-divider">または</div>
+
+        <!-- CTA 3: 直接申込 -->
+        <div class="cta-card secondary">
+            <div class="cta-icon">🚀</div>
+            <div class="cta-title">育休メンターに<br>直接申し込む</div>
+            <div class="cta-subtitle">すぐにお申込をご希望の方へ</div>
+            <div class="cta-price">
+                入会金 <strong style="font-size: 20px;">55,000</strong>円<span class="tax">（税込）</span><br>
+                ＋ 月額 <strong style="font-size: 20px;">16,500</strong>円<span class="tax">（税込）</span>
+            </div>
+            <div class="cta-benefits">
+                <div class="cta-benefit"><span class="check">✓</span> 最短で専属トレーナーとスタート</div>
+                <div class="cta-benefit"><span class="check">✓</span> 月1回50分のオンラインセッション</div>
+                <div class="cta-benefit"><span class="check">✓</span> オリジナルワークシート付き</div>
+            </div>
+            <button class="cta-btn outline">申し込みフォームへ →</button>
+        </div>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- Trainers (unchanged)                  -->
+    <!-- ===================================== -->
+    <div class="section">
+        <div class="section-label">Trainers</div>
+        <h2 class="section-title">トレーナー紹介</h2>
+
+        <div class="trainer-card">
+            <div class="trainer-photo">📷 トレーナーA 写真</div>
+            <div class="trainer-info">
+                <div class="trainer-name">トレーナーA</div>
+                <div class="trainer-title-text">国家資格キャリアコンサルタント / 2児のママ</div>
+                <div class="trainer-desc">
+                    子育てと仕事の両立に悩んだ自身の経験から、キャリアコンサルタントの資格を取得。寄り添いながらも前に進めるセッションが好評。
+                </div>
+            </div>
+        </div>
+
+        <div class="trainer-card">
+            <div class="trainer-photo">📷 トレーナーB 写真</div>
+            <div class="trainer-info">
+                <div class="trainer-name">トレーナーB</div>
+                <div class="trainer-title-text">国家資格キャリアコンサルタント / 1児のママ</div>
+                <div class="trainer-desc">
+                    大手企業での人事経験を持ち、組織と個人の両方の視点からキャリア設計をサポート。復職後のキャリアプランニングが得意。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- FAQ (unchanged)                       -->
+    <!-- ===================================== -->
+    <div class="section section-alt">
+        <div class="section-title">よくあるご質問</div>
+
+        <div class="faq-item">
+            <div class="faq-q"><span class="q-mark">Q.</span> 子どもがいても大丈夫ですか？</div>
+            <div class="faq-a">はい。お子様同席でのセッションを想定しています。お子様の様子に合わせて、休憩を挟みながら進めることも可能です。</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q"><span class="q-mark">Q.</span> セッションの頻度は変更できますか？</div>
+            <div class="faq-a">月1回のプランをご用意しています。セッション日程は都度予約制ですので、お子様の体調などに合わせて柔軟にスケジュールいただけます。</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q"><span class="q-mark">Q.</span> 育休中でなくても利用できますか？</div>
+            <div class="faq-a">育休中の方を主な対象としていますが、復職後のフォローセッションとしてもご利用いただけます。</div>
+        </div>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- REMOVED: Bottom CTA (Peatix)          -->
+    <!-- ===================================== -->
+    <div class="removed-section annotation-outline remove" style="position: relative;">
+        <span class="annotation remove" style="position: absolute; top: -12px; right: 8px;">✕ REMOVE</span>
+        <p>❌ Peatix予約ボタン（削除）</p>
+        <p class="detail">旧: 「育休メンターセミナー ご予約はこちらから」<br>Peatix外部リンク</p>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- BOTTOM CTA (NEW)                      -->
+    <!-- ===================================== -->
+    <div class="cta-section annotation-outline new"
+        style="position: relative; padding-top: 32px; padding-bottom: 32px;">
+        <span class="annotation new" style="position: absolute; top: 8px; right: 8px;">★ NEW — ボトムCTA</span>
+
+        <h2 class="section-title" style="font-size: 18px; margin-bottom: 16px;">
+            育休中のモヤモヤ、<br>一人で抱え込まないでください
+        </h2>
+
+        <div class="cta-card primary" style="margin-bottom: 12px;">
+            <div class="cta-icon">🎯</div>
+            <div class="cta-title" style="font-size: 16px;">体験セッション</div>
+            <div class="cta-price">
+                <strong>3,300</strong>円<span class="tax">（税込）</span>/ 50分
+            </div>
+            <button class="cta-btn orange">体験セッションを予約する →</button>
+        </div>
+
+        <div style="display: flex; gap: 8px;">
+            <div class="cta-card secondary" style="flex: 1; margin-bottom: 0;">
+                <div style="font-size: 24px; margin-bottom: 4px;">✍️</div>
+                <div style="font-size: 13px; font-weight: 700; color: #324451;">3分ワーク</div>
+                <div style="font-size: 11px; color: #888; margin-bottom: 8px;">無料</div>
+                <button class="cta-btn dark" style="font-size: 12px; padding: 10px;">始める →</button>
+            </div>
+            <div class="cta-card secondary" style="flex: 1; margin-bottom: 0;">
+                <div style="font-size: 24px; margin-bottom: 4px;">🚀</div>
+                <div style="font-size: 13px; font-weight: 700; color: #324451;">直接申込</div>
+                <div style="font-size: 11px; color: #888; margin-bottom: 8px;">入会金5.5万+月1.65万(税込)</div>
+                <button class="cta-btn outline" style="font-size: 12px; padding: 10px;">申込む →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- FOOTER                                -->
+    <!-- ===================================== -->
+    <footer class="footer">
+        <div class="footer-logo">meetcareer</div>
+        <div class="footer-links">
+            <a href="#">トップ</a>
+            <a href="#">サービス概要</a>
+            <a href="#">トレーナー紹介</a>
+            <a href="#">よくある質問</a>
+            <a href="#">利用規約</a>
+            <a href="#">プライバシーポリシー</a>
+        </div>
+        <div class="footer-copy">© meetcareer Inc. All rights reserved.</div>
+    </footer>
+
+    <!-- ===================================== -->
+    <!-- STICKY BOTTOM CTA (CHANGED)           -->
+    <!-- ===================================== -->
+    <div class="sticky-cta annotation-outline change" style="position: fixed;">
+        <button class="sticky-cta-btn primary">🎯 体験セッション<br>3,300円/50分</button>
+        <button class="sticky-cta-btn tertiary">✍️ 3分ワーク<br>無料</button>
+        <button class="sticky-cta-btn secondary">🚀 直接申込</button>
+    </div>
+
+</body>
+
+</html>

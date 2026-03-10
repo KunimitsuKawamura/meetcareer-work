@@ -234,7 +234,8 @@ class WorkApp {
 
     // CTA click tracking
     document.getElementById('btn-cta').addEventListener('click', () => {
-      Analytics.trackCTAClick();
+      const destination = RESULT_MESSAGES.cta.trackDestination || 'counseling';
+      Analytics.trackCTAClick(destination);
     });
 
     // Retry
