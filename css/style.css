@@ -396,6 +396,21 @@ body {
   white-space: pre-line;
 }
 
+.cta-terms {
+  margin-top: 12px;
+  font-size: 0.75rem;
+}
+
+.cta-terms a {
+  color: #999;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.cta-terms a:hover {
+  color: #666;
+}
+
 /* --- Retry --- */
 .retry-section {
   margin-top: 24px;
