@@ -133,7 +133,7 @@ const RESULT_MESSAGES = {
         heading: 'プロと一緒に、次の一歩を見つけませんか',
         text: '育休メンターの体験セッションでは、\n今日感じたことを、キャリアトレーナーとじっくり深掘りできます。\n\nお子様同席OK・すっぴんOK。\nご自宅からリラックスしてご参加いただけます。',
         buttonText: '育休メンター体験セッションを予約する（¥3,300）',
-        buttonUrl: 'https://www.meetcareer.net/ikukyu',
+        buttonUrl: 'https://meetings.hubspot.com/meetcareer-entry/ikukyu-trial',
         trackDestination: 'ikukyu_trial'
     }
 };
