@@ -221,7 +221,7 @@ class WorkApp {
           <a href="${ctaUrl}" class="btn-primary" id="btn-cta" target="_blank" rel="noopener">
             ${cta.buttonText}
           </a>
-          <p class="cta-terms"><a href="https://fruor.notion.site/meetcareer-terms-ikukyuexperience" target="_blank" rel="noopener">育休メンター体験セッション利用規約</a></p>
+          ${cta.termsUrl ? `<p class="cta-terms"><a href="${cta.termsUrl}" target="_blank" rel="noopener">${cta.termsText || '利用規約'}</a></p>` : ''}
         </div>
 
         <div class="retry-section fade-in-up delay-4">
