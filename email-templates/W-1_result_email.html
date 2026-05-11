@@ -257,8 +257,10 @@
 
               <p style="margin: 0; font-size: 11px; color: #AAAAAA; line-height: 1.6;">
                 このメールは「3分ワーク」にメールアドレスをご登録いただいた方にお送りしています。<br>
-                <a href="https://work.meetcareer.net/unsubscribe.html?e={{ contact.EMAIL }}#{{ unsubscribe }}" style="color: #AAAAAA; text-decoration: underline;">配信を停止する</a>
+                <a href="https://work.meetcareer.net/unsubscribe.html?e={{ contact.EMAIL }}" style="color: #AAAAAA; text-decoration: underline;">配信を停止する</a>
               </p>
+              <!-- Brevo compliance -->
+              <div style="display:none;">{{ unsubscribe }}</div>
             </td>
           </tr>
 

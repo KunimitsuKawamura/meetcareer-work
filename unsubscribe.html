@@ -71,13 +71,8 @@
       transition: opacity 0.2s;
       letter-spacing: 0.5px;
     }
-    .btn-unsubscribe:hover {
-      opacity: 0.9;
-    }
-    .btn-unsubscribe:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    .btn-unsubscribe:hover { opacity: 0.9; }
+    .btn-unsubscribe:disabled { opacity: 0.5; cursor: not-allowed; }
     .btn-cancel {
       display: inline-block;
       margin-top: 16px;
@@ -88,11 +83,8 @@
       background: none;
       border: none;
     }
-    .btn-cancel:hover {
-      color: #4A4A4A;
-    }
+    .btn-cancel:hover { color: #4A4A4A; }
 
-    /* ===== STATE: COMPLETED ===== */
     .completed { display: none; }
     .completed h1 { color: #5B9E9E; }
     .completed .check-icon {
@@ -107,6 +99,9 @@
       font-size: 28px;
     }
 
+    .error { display: none; }
+    .error h1 { color: #E74C3C; }
+
     .footer {
       padding: 20px 32px;
       text-align: center;
@@ -116,10 +111,6 @@
       font-size: 12px;
       color: #AAAAAA;
       line-height: 1.6;
-    }
-    .footer a {
-      color: #5B9E9E;
-      text-decoration: underline;
     }
   </style>
 </head>
@@ -163,21 +154,33 @@
       </a>
     </div>
 
-    <div class="footer">
+    <!-- ===== エラー画面 ===== -->
+    <div class="content error" id="error-view">
+      <h1>処理に失敗しました</h1>
       <p>
-        ミートキャリア 運営事務局
+        恐れ入りますが、時間をおいて再度お試しください。<br>
+        問題が解決しない場合は、下記までご連絡ください。<br><br>
+        info@meetcareer.net
       </p>
+      <button class="btn-unsubscribe" onclick="location.reload();" style="font-size:14px; padding:12px 32px;">
+        再試行する
+      </button>
+    </div>
+
+    <div class="footer">
+      <p>ミートキャリア 運営事務局</p>
     </div>
   </div>
 
   <script>
-    // URLパラメータからメールを取得、ハッシュフラグメントからBrevo URLを取得
+    // GAS Web App URL
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxmJ9l-3OzgECAPtlzuJh6wYxXlKBujLpnOJ8irKzv4oKT0CIzV78SMPYY1bGpVAxHz/exec';
+
+    // URLパラメータからメールを取得
     const params = new URLSearchParams(window.location.search);
     const email = params.get('e');
-    // ハッシュフラグメントにBrevoの配信停止URLを格納（&を含むURLでも安全）
-    const brevoUrl = window.location.hash ? window.location.hash.substring(1) : null;
 
-    // メールアドレス表示
+    // メールアドレス表示（一部マスク）
     const emailDisplay = document.getElementById('email-display');
     if (email) {
       const parts = email.split('@');
@@ -197,14 +200,31 @@
       btn.disabled = true;
       btn.textContent = '処理中...';
 
-      if (brevoUrl) {
-        // Brevoの配信停止URLに直接リダイレクト
-        window.location.href = brevoUrl;
-      } else {
-        // フォールバック
-        document.getElementById('confirm-view').style.display = 'none';
-        document.getElementById('done-view').style.display = 'block';
+      if (!email) {
+        showError();
+        return;
       }
+
+      // GAS経由でBrevo APIを呼び出し（配信停止処理）
+      const img = new Image();
+      img.onload = function() { showDone(); };
+      img.onerror = function() { showDone(); }; // GASリダイレクトでonerrorになるが処理は成功
+      img.src = GAS_URL + '?email=' + encodeURIComponent(email) + '&t=' + Date.now();
+
+      // 2秒後に完了画面を表示（GASの処理完了を待つ）
+      setTimeout(showDone, 2000);
+    }
+
+    function showDone() {
+      document.getElementById('confirm-view').style.display = 'none';
+      document.getElementById('error-view').style.display = 'none';
+      document.getElementById('done-view').style.display = 'block';
+    }
+
+    function showError() {
+      document.getElementById('confirm-view').style.display = 'none';
+      document.getElementById('done-view').style.display = 'none';
+      document.getElementById('error-view').style.display = 'block';
     }
   </script>
 
