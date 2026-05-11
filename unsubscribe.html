@@ -198,17 +198,8 @@
       btn.textContent = '処理中...';
 
       if (brevoUrl) {
-        // Brevoの配信停止URLにリダイレクトせずfetchで処理
-        // CORSの制約があるためリダイレクト方式にフォールバック
-        // 完了画面を表示してからバックグラウンドで処理
-        document.getElementById('confirm-view').style.display = 'none';
-        document.getElementById('done-view').style.display = 'block';
-
-        // 新しいウィンドウでBrevoの配信停止を実行（非表示）
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = brevoUrl;
-        document.body.appendChild(iframe);
+        // Brevoの配信停止URLに直接リダイレクト（確実に処理される）
+        window.location.href = brevoUrl;
       } else {
         // フォールバック：URLパラメータがない場合
         document.getElementById('confirm-view').style.display = 'none';
