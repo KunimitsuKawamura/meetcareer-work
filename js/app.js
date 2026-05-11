@@ -208,14 +208,42 @@ class WorkApp {
           <p class="result-text">${closing}</p>
         </div>
 
-        <div class="reflection-card fade-in-up delay-3">
+        <div class="email-capture-section fade-in-up delay-3" id="email-capture-section">
+          <div class="email-capture-card">
+            <p class="email-capture-icon">📩</p>
+            <p class="email-capture-heading">この結果をメールで受け取りませんか？</p>
+            <p class="email-capture-text">
+              今日のワーク結果と、あなたに合った<br>キャリアのヒントをお届けします。
+            </p>
+            <div class="email-form" id="email-form">
+              <input type="email" class="email-input" id="email-input"
+                placeholder="メールアドレスを入力" required
+                autocomplete="email" inputmode="email">
+              <button class="btn-primary btn-email-submit" id="btn-email-submit">
+                受け取る
+              </button>
+            </div>
+            <p class="email-note">※ 配信停止はいつでも可能です</p>
+          </div>
+          <div id="email-success" class="email-success" style="display:none">
+            <div class="email-success-inner">
+              <span class="email-success-icon">✓</span>
+              <p class="email-success-text">送信しました！<br>結果メールをお届けします。</p>
+            </div>
+          </div>
+          <div id="email-error" class="email-error" style="display:none">
+            <p class="email-error-text">送信に失敗しました。もう一度お試しください。</p>
+          </div>
+        </div>
+
+        <div class="reflection-card fade-in-up delay-4">
           <p class="reflection-heading">${reflection.heading}</p>
           <ul class="reflection-list">
             ${reflectionItems}
           </ul>
         </div>
 
-        <div class="cta-section fade-in-up delay-4">
+        <div class="cta-section fade-in-up delay-5">
           <p class="cta-heading">${cta.heading}</p>
           <p class="cta-text">${cta.text}</p>
           <a href="${ctaUrl}" class="btn-primary" id="btn-cta" target="_blank" rel="noopener">
@@ -224,7 +252,7 @@ class WorkApp {
           ${cta.termsUrl ? `<p class="cta-terms"><a href="${cta.termsUrl}" target="_blank" rel="noopener">${cta.termsText || '利用規約'}</a></p>` : ''}
         </div>
 
-        <div class="retry-section fade-in-up delay-4">
+        <div class="retry-section fade-in-up delay-5">
           <button class="btn-secondary" id="btn-retry">もう一度やってみる</button>
         </div>
       </div>
@@ -232,6 +260,12 @@ class WorkApp {
 
     // Track completion
     Analytics.trackComplete(this.answers);
+
+    // Track email form view
+    Analytics.trackEmailFormView();
+
+    // Email form submission
+    this.setupEmailForm(step1Tag, step3Tag, step5Tag);
 
     // CTA click tracking
     document.getElementById('btn-cta').addEventListener('click', () => {
@@ -246,6 +280,97 @@ class WorkApp {
       this.renderHero();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+  }
+
+  // --- Email Capture ---
+  setupEmailForm(step1Tag, step3Tag, step5Tag) {
+    const form = document.getElementById('email-form');
+    const input = document.getElementById('email-input');
+    const submitBtn = document.getElementById('btn-email-submit');
+    const successEl = document.getElementById('email-success');
+    const errorEl = document.getElementById('email-error');
+    const captureCard = document.querySelector('.email-capture-card');
+
+    if (!form || !submitBtn) return;
+
+    submitBtn.addEventListener('click', async () => {
+      const email = input.value.trim();
+
+      // Validate email
+      if (!email || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        input.classList.add('input-error');
+        input.focus();
+        return;
+      }
+
+      input.classList.remove('input-error');
+      submitBtn.disabled = true;
+      submitBtn.textContent = '送信中...';
+      errorEl.style.display = 'none';
+
+      try {
+        await this.submitToBrevo(email, step1Tag, step3Tag, step5Tag);
+
+        // Success
+        captureCard.style.display = 'none';
+        successEl.style.display = 'block';
+
+        // Track GA4 event
+        const utm = Analytics.getUTMParams();
+        Analytics.trackEmailSubmit(step1Tag, utm.utm_source);
+
+      } catch (err) {
+        // Error
+        submitBtn.disabled = false;
+        submitBtn.textContent = '受け取る';
+        errorEl.style.display = 'block';
+        console.error('Email submission error:', err);
+      }
+    });
+
+    // Clear error state on input
+    input.addEventListener('input', () => {
+      input.classList.remove('input-error');
+      errorEl.style.display = 'none';
+    });
+
+    // Enter key submission
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        submitBtn.click();
+      }
+    });
+  }
+
+  // --- Brevo Subscription Form API ---
+  async submitToBrevo(email, step1Tag, step3Tag, step5Tag) {
+    const BREVO_FORM_URL = 'https://33f74781.sibforms.com/serve/MUIFAOmKNPs7lM4tRqjBWhsW13MGkZHSQtG8tgODk2JhnyDmAMcuRGTrZIhh3av1fhwYyO9o35VA0dtmM9ThdpFycs7LM3d_phuIhWV4j1JdYcpjKeHJW-081V0H7SrXl3z2RlGPnQTZ0duQ8R0X-fBU91qJ7cjmwRH4JTN57AWOvP-8fLMIRk1cYs6bYJXc3H12543HqPSsIxJMFQ==';
+
+    const utm = Analytics.getUTMParams();
+    const now = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+
+    const formData = new FormData();
+    formData.append('EMAIL', email);
+    formData.append('WORK_STEP1_TAG', step1Tag);
+    formData.append('WORK_STEP3_TAG', step3Tag);
+    formData.append('WORK_STEP5_TAG', step5Tag);
+    formData.append('WORK_COMPLETED_AT', now);
+    formData.append('WORK_UTM_SOURCE', utm.utm_source);
+    // Brevo hidden fields (honeypot & metadata)
+    formData.append('email_address_check', '');
+    formData.append('locale', 'en');
+    formData.append('html_type', 'simple');
+
+    const response = await fetch(BREVO_FORM_URL, {
+      method: 'POST',
+      body: formData,
+      mode: 'no-cors' // Brevo form endpoints don't support CORS
+    });
+
+    // no-cors mode always returns opaque response, so we assume success
+    // if no network error is thrown
+    return true;
   }
 
 

@@ -416,6 +416,129 @@ body {
   margin-top: 24px;
 }
 
+/* --- Email Capture Section --- */
+.email-capture-section {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.email-capture-card {
+  background: linear-gradient(135deg, rgba(232, 155, 39, 0.08), rgba(100, 187, 191, 0.08));
+  border: 1px solid rgba(232, 155, 39, 0.2);
+  border-radius: 20px;
+  padding: 28px 24px;
+  text-align: center;
+}
+
+.email-capture-icon {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.email-capture-heading {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.email-capture-text {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.email-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.email-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid rgba(100, 187, 191, 0.3);
+  border-radius: 12px;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-size: 0.95rem;
+  color: #333;
+  background: rgba(255, 255, 255, 0.9);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.email-input::placeholder {
+  color: #bbb;
+}
+
+.email-input:focus {
+  border-color: #64BBBF;
+  box-shadow: 0 0 0 3px rgba(100, 187, 191, 0.15);
+}
+
+.email-input.input-error {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+.btn-email-submit {
+  width: 100%;
+  padding: 14px;
+  font-size: 0.95rem;
+}
+
+.email-note {
+  font-size: 0.75rem;
+  color: #aaa;
+  margin-top: 12px;
+}
+
+.email-success {
+  width: 100%;
+}
+
+.email-success-inner {
+  background: rgba(100, 187, 191, 0.1);
+  border: 1px solid rgba(100, 187, 191, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+}
+
+.email-success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #64BBBF;
+  color: white;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.email-success-text {
+  font-size: 0.9rem;
+  color: #64BBBF;
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+.email-error {
+  margin-top: 8px;
+}
+
+.email-error-text {
+  font-size: 0.8rem;
+  color: #e74c3c;
+  text-align: center;
+}
+
 /* --- Footer --- */
 .app-footer {
   margin-top: 40px;
@@ -485,6 +608,10 @@ body {
 
 .delay-4 {
   animation-delay: 0.8s;
+}
+
+.delay-5 {
+  animation-delay: 1.0s;
 }
 
 /* --- Responsive --- */

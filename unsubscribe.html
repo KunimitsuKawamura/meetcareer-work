@@ -171,15 +171,15 @@
   </div>
 
   <script>
-    // URLパラメータからBrevoの配信停止URLとメールを取得
+    // URLパラメータからメールを取得、ハッシュフラグメントからBrevo URLを取得
     const params = new URLSearchParams(window.location.search);
-    const brevoUrl = params.get('u');
     const email = params.get('e');
+    // ハッシュフラグメントにBrevoの配信停止URLを格納（&を含むURLでも安全）
+    const brevoUrl = window.location.hash ? window.location.hash.substring(1) : null;
 
     // メールアドレス表示
     const emailDisplay = document.getElementById('email-display');
     if (email) {
-      // メールを一部マスク（プライバシー保護）
       const parts = email.split('@');
       if (parts.length === 2) {
         const name = parts[0];
@@ -198,10 +198,10 @@
       btn.textContent = '処理中...';
 
       if (brevoUrl) {
-        // Brevoの配信停止URLに直接リダイレクト（確実に処理される）
+        // Brevoの配信停止URLに直接リダイレクト
         window.location.href = brevoUrl;
       } else {
-        // フォールバック：URLパラメータがない場合
+        // フォールバック
         document.getElementById('confirm-view').style.display = 'none';
         document.getElementById('done-view').style.display = 'block';
       }

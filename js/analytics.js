@@ -64,6 +64,11 @@ const Analytics = (() => {
         trackAbandon: (lastStep) => sendEvent('work_abandon', {
             last_step: lastStep
         }),
+        trackEmailSubmit: (step1Tag, utmSource) => sendEvent('work_email_submit', {
+            step1_tag: step1Tag,
+            utm_source_value: utmSource
+        }),
+        trackEmailFormView: () => sendEvent('work_email_form_view'),
         getUTMParams
     };
 })();
