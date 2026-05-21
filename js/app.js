@@ -165,9 +165,9 @@ class WorkApp {
     const step3Tag = this.answers[3]?.tag || 'authenticity';
     const step5Tag = this.answers[5]?.tag || 'verbalize';
 
-    const opening = RESULT_MESSAGES.opening[step1Tag] || RESULT_MESSAGES.opening.moyamoya;
-    const middle = RESULT_MESSAGES.middle[step3Tag] || RESULT_MESSAGES.middle.authenticity;
-    const closing = RESULT_MESSAGES.closing[step5Tag] || RESULT_MESSAGES.closing.verbalize;
+    const openingData = RESULT_MESSAGES.opening[step1Tag] || RESULT_MESSAGES.opening.moyamoya;
+    const middleData = RESULT_MESSAGES.middle[step3Tag] || RESULT_MESSAGES.middle.authenticity;
+    const closingData = RESULT_MESSAGES.closing[step5Tag] || RESULT_MESSAGES.closing.verbalize;
     const reflection = RESULT_MESSAGES.reflection;
     const cta = RESULT_MESSAGES.cta;
 
@@ -191,44 +191,51 @@ class WorkApp {
 
         <div class="result-card fade-in-up">
           <p class="result-heading">ワークおつかれさまでした</p>
-          <p class="result-text">${opening}</p>
+          <p class="result-text">${openingData.outline}</p>
         </div>
 
         <div class="result-divider fade-in-up delay-1"></div>
 
         <div class="result-card fade-in-up delay-1">
           <p class="result-heading">あなたが今、大切にしたいこと</p>
-          <p class="result-text">${middle}</p>
+          <p class="result-text">${middleData.outline}</p>
+          <div class="result-blurred-teaser">
+            <p class="result-text-blurred">${middleData.full}</p>
+            <div class="result-blur-overlay"></div>
+          </div>
         </div>
 
         <div class="result-divider fade-in-up delay-2"></div>
 
         <div class="result-card fade-in-up delay-2">
           <p class="result-heading">これからのあなたへ</p>
-          <p class="result-text">${closing}</p>
+          <p class="result-text">${closingData.outline}</p>
+          <div class="result-blurred-teaser">
+            <p class="result-text-blurred">${closingData.full}</p>
+            <div class="result-blur-overlay"></div>
+          </div>
         </div>
 
         <div class="email-capture-section fade-in-up delay-3" id="email-capture-section">
           <div class="email-capture-card">
             <p class="email-capture-icon">📩</p>
-            <p class="email-capture-heading">この結果をメールで受け取りませんか？</p>
+            <p class="email-capture-heading">詳しい結果レポートをメールでお届けします</p>
             <p class="email-capture-text">
-              今日のワーク結果と、あなたに合った<br>キャリアのヒントをお届けします。
+              あなたの回答をもとにした<strong>パーソナライズされた詳細レポート</strong>と、<br>キャリアのヒントをお届けします。
             </p>
             <div class="email-form" id="email-form">
               <input type="email" class="email-input" id="email-input"
                 placeholder="メールアドレスを入力" required
                 autocomplete="email" inputmode="email">
               <button class="btn-primary btn-email-submit" id="btn-email-submit">
-                受け取る
+                詳しい結果を受け取る
               </button>
             </div>
-            <p class="email-note">※ 配信停止はいつでも可能です</p>
           </div>
           <div id="email-success" class="email-success" style="display:none">
             <div class="email-success-inner">
               <span class="email-success-icon">✓</span>
-              <p class="email-success-text">送信しました！<br>結果メールをお届けします。</p>
+              <p class="email-success-text">送信しました！<br>詳しい結果レポートをメールでお届けします。</p>
             </div>
           </div>
           <div id="email-error" class="email-error" style="display:none">
