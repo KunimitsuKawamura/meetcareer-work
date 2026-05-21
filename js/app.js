@@ -221,7 +221,7 @@ class WorkApp {
             <p class="email-capture-icon">📩</p>
             <p class="email-capture-heading">詳しい結果レポートをメールでお届けします</p>
             <p class="email-capture-text">
-              あなたの回答をもとにした<strong>パーソナライズされた詳細レポート</strong>と、<br>キャリアのヒントをお届けします。
+              あなたの回答に合わせた<strong>詳しい結果</strong>と、<br>これからのキャリアを考えるヒントをお届けします。
             </p>
             <div class="email-form" id="email-form">
               <input type="email" class="email-input" id="email-input"
