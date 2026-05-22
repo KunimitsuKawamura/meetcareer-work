@@ -411,7 +411,20 @@ body {
 }
 
 .result-blurred-teaser-tall {
-  max-height: 90px;
+  max-height: 100px;
+}
+
+.result-insight-visible {
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.result-blurred-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #999;
+  margin-bottom: 4px;
+  letter-spacing: 0.05em;
 }
 
 .result-text-blurred {

@@ -182,10 +182,16 @@ class WorkApp {
       return bg ? `<span class="result-factor-tag">${bg.label}</span>` : '';
     }).filter(Boolean).join('');
 
-    // Build background insights (blurred)
+    // Build background insights (visible)
     const backgroundInsightsHTML = step2Tags.map(tag => {
       const bg = RESULT_MESSAGES.background[tag];
       return bg ? `<li>${bg.insight}</li>` : '';
+    }).filter(Boolean).join('');
+
+    // Build background deeper analysis (blurred)
+    const backgroundDeeperHTML = step2Tags.map(tag => {
+      const bg = RESULT_MESSAGES.background[tag];
+      return bg ? `<li>「${bg.label}」への具体的なアプローチと、あなたに合った次のステップ</li>` : '';
     }).filter(Boolean).join('');
 
     // Build UTM-aware CTA URL
@@ -224,8 +230,10 @@ class WorkApp {
             ${backgroundTagsHTML}
           </div>
           <p class="result-factor-summary">${step2Tags.length}つの要素が、今のあなたの気持ちに影響しているようです。</p>
+          <ul class="result-insight-list result-insight-visible">${backgroundInsightsHTML}</ul>
           <div class="result-blurred-teaser result-blurred-teaser-tall">
-            <ul class="result-text-blurred result-insight-list">${backgroundInsightsHTML}</ul>
+            <p class="result-blurred-label">▼ さらに詳しい分析</p>
+            <ul class="result-text-blurred result-insight-list">${backgroundDeeperHTML}</ul>
             <div class="result-blur-overlay"></div>
           </div>
         </div>
@@ -250,8 +258,10 @@ class WorkApp {
           <p class="result-heading">今のあなたの状態</p>
           <p class="result-self-state-label">${selfStateData.label}</p>
           <p class="result-text">${selfStateData.insight}</p>
-          <div class="result-blurred-teaser">
-            <p class="result-text-blurred">${selfStateData.detail}</p>
+          <p class="result-teaser-text">${selfStateData.detail}</p>
+          <div class="result-blurred-teaser result-blurred-teaser-tall">
+            <p class="result-blurred-label">▼ この状態の深掘り分析</p>
+            <p class="result-text-blurred">この状態にいるあなたに最適なアプローチ方法と、今日からできる具体的なステップをまとめました。自分の特性を活かした、無理のない前進の仕方があります。</p>
             <div class="result-blur-overlay"></div>
           </div>
         </div>
