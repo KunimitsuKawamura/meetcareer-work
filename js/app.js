@@ -232,7 +232,7 @@ class WorkApp {
           <p class="result-factor-summary">${step2Tags.length}つの要素が、今のあなたの気持ちに影響しているようです。</p>
           <ul class="result-insight-list result-insight-visible">${backgroundInsightsHTML}</ul>
           <div class="result-blurred-teaser result-blurred-teaser-tall">
-            <p class="result-blurred-label">▼ さらに詳しい分析</p>
+            <p class="result-blurred-label">▼ もう少し詳しく見てみると…</p>
             <ul class="result-text-blurred result-insight-list">${backgroundDeeperHTML}</ul>
             <div class="result-blur-overlay"></div>
           </div>
@@ -260,7 +260,7 @@ class WorkApp {
           <p class="result-text">${selfStateData.insight}</p>
           <p class="result-teaser-text">${selfStateData.detail}</p>
           <div class="result-blurred-teaser result-blurred-teaser-tall">
-            <p class="result-blurred-label">▼ この状態の深掘り分析</p>
+            <p class="result-blurred-label">▼ もう少し詳しく見てみると…</p>
             <p class="result-text-blurred">この状態にいるあなたに最適なアプローチ方法と、今日からできる具体的なステップをまとめました。自分の特性を活かした、無理のない前進の仕方があります。</p>
             <div class="result-blur-overlay"></div>
           </div>
@@ -272,7 +272,7 @@ class WorkApp {
             <p class="email-capture-icon">📩</p>
             <p class="email-capture-heading">詳しい結果レポートをメールでお届けします</p>
             <p class="email-capture-text">
-              あなたの回答に合わせた<strong>詳しい分析結果</strong>と、<br>これからのあなたへのメッセージをお届けします。
+              あなたの回答に合わせた<strong>詳しい結果</strong>と、<br>これからのあなたへのメッセージをお届けします。
             </p>
             <div class="email-form" id="email-form">
               <input type="email" class="email-input" id="email-input"
