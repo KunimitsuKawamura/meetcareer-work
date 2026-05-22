@@ -162,16 +162,31 @@ class WorkApp {
 
     // Get dynamic messages based on answers
     const step1Tag = this.answers[1]?.tag || 'moyamoya';
+    const step2Tags = this.answers[2]?.tags || [];
     const step3Tag = this.answers[3]?.tag || 'authenticity';
+    const step4Tag = this.answers[4]?.tag || 'vague';
     const step5Tag = this.answers[5]?.tag || 'verbalize';
 
     const openingData = RESULT_MESSAGES.opening[step1Tag] || RESULT_MESSAGES.opening.moyamoya;
     const middleData = RESULT_MESSAGES.middle[step3Tag] || RESULT_MESSAGES.middle.authenticity;
     const closingData = RESULT_MESSAGES.closing[step5Tag] || RESULT_MESSAGES.closing.verbalize;
+    const selfStateData = RESULT_MESSAGES.selfState[step4Tag] || RESULT_MESSAGES.selfState.vague;
     const reflection = RESULT_MESSAGES.reflection;
     const cta = RESULT_MESSAGES.cta;
 
     const reflectionItems = reflection.questions.map(q => `<li>${q}</li>`).join('');
+
+    // Build Step2 background factor tags
+    const backgroundTagsHTML = step2Tags.map(tag => {
+      const bg = RESULT_MESSAGES.background[tag];
+      return bg ? `<span class="result-factor-tag">${bg.label}</span>` : '';
+    }).filter(Boolean).join('');
+
+    // Build background insights (blurred)
+    const backgroundInsightsHTML = step2Tags.map(tag => {
+      const bg = RESULT_MESSAGES.background[tag];
+      return bg ? `<li>${bg.insight}</li>` : '';
+    }).filter(Boolean).join('');
 
     // Build UTM-aware CTA URL
     const utm = Analytics.getUTMParams();
@@ -189,39 +204,78 @@ class WorkApp {
           <div class="progress-fill" style="width: 100%"></div>
         </div>
 
+        <!-- Section 1: Opening (Step1) -->
         <div class="result-card fade-in-up">
           <p class="result-heading">ワークおつかれさまでした</p>
           <p class="result-text">${openingData.outline}</p>
+          <p class="result-teaser-text">${openingData.teaser}</p>
+          <div class="result-blurred-teaser">
+            <p class="result-text-blurred">${openingData.full}</p>
+            <div class="result-blur-overlay"></div>
+          </div>
         </div>
 
         <div class="result-divider fade-in-up delay-1"></div>
 
+        <!-- Section 2: Background Factors (Step2) -->
         <div class="result-card fade-in-up delay-1">
-          <p class="result-heading">あなたが今、大切にしたいこと</p>
-          <p class="result-text">${middleData.outline}</p>
-          <div class="result-blurred-teaser">
-            <p class="result-text-blurred">${middleData.full}</p>
+          <p class="result-heading">あなたのモヤモヤの背景</p>
+          <div class="result-factor-tags">
+            ${backgroundTagsHTML}
+          </div>
+          <p class="result-factor-summary">${step2Tags.length}つの要素が、今のあなたの気持ちに影響しているようです。</p>
+          <div class="result-blurred-teaser result-blurred-teaser-tall">
+            <ul class="result-text-blurred result-insight-list">${backgroundInsightsHTML}</ul>
             <div class="result-blur-overlay"></div>
           </div>
         </div>
 
         <div class="result-divider fade-in-up delay-2"></div>
 
+        <!-- Section 3: Values (Step3) -->
         <div class="result-card fade-in-up delay-2">
+          <p class="result-heading">あなたが今、大切にしたいこと</p>
+          <p class="result-text">${middleData.outline}</p>
+          <p class="result-teaser-text">${middleData.teaser}</p>
+          <div class="result-blurred-teaser result-blurred-teaser-tall">
+            <p class="result-text-blurred">${middleData.full}</p>
+            <div class="result-blur-overlay"></div>
+          </div>
+        </div>
+
+        <div class="result-divider fade-in-up delay-3"></div>
+
+        <!-- Section 4: Self-State (Step4) -->
+        <div class="result-card fade-in-up delay-3">
+          <p class="result-heading">今のあなたの状態</p>
+          <p class="result-self-state-label">${selfStateData.label}</p>
+          <p class="result-text">${selfStateData.insight}</p>
+          <div class="result-blurred-teaser">
+            <p class="result-text-blurred">${selfStateData.detail}</p>
+            <div class="result-blur-overlay"></div>
+          </div>
+        </div>
+
+        <div class="result-divider fade-in-up delay-4"></div>
+
+        <!-- Section 5: Future (Step5) -->
+        <div class="result-card fade-in-up delay-4">
           <p class="result-heading">これからのあなたへ</p>
           <p class="result-text">${closingData.outline}</p>
-          <div class="result-blurred-teaser">
+          <p class="result-teaser-text">${closingData.teaser}</p>
+          <div class="result-blurred-teaser result-blurred-teaser-tall">
             <p class="result-text-blurred">${closingData.full}</p>
             <div class="result-blur-overlay"></div>
           </div>
         </div>
 
-        <div class="email-capture-section fade-in-up delay-3" id="email-capture-section">
+        <!-- Email Capture -->
+        <div class="email-capture-section fade-in-up delay-5" id="email-capture-section">
           <div class="email-capture-card">
             <p class="email-capture-icon">📩</p>
             <p class="email-capture-heading">詳しい結果レポートをメールでお届けします</p>
             <p class="email-capture-text">
-              あなたの回答に合わせた<strong>詳しい結果</strong>と、<br>これからのキャリアを考えるヒントをお届けします。
+              あなたの回答に合わせた<strong>5つの分析結果</strong>と、<br>これからのキャリアを考えるヒントをお届けします。
             </p>
             <div class="email-form" id="email-form">
               <input type="email" class="email-input" id="email-input"
@@ -243,7 +297,7 @@ class WorkApp {
           </div>
         </div>
 
-        <div class="reflection-card fade-in-up delay-4">
+        <div class="reflection-card fade-in-up delay-5">
           <p class="reflection-heading">${reflection.heading}</p>
           <ul class="reflection-list">
             ${reflectionItems}
