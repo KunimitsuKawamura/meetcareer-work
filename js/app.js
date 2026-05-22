@@ -266,26 +266,13 @@ class WorkApp {
           </div>
         </div>
 
-        <div class="result-divider fade-in-up delay-4"></div>
-
-        <!-- Section 5: Future (Step5) -->
-        <div class="result-card fade-in-up delay-4">
-          <p class="result-heading">これからのあなたへ</p>
-          <p class="result-text">${closingData.outline}</p>
-          <p class="result-teaser-text">${closingData.teaser}</p>
-          <div class="result-blurred-teaser result-blurred-teaser-tall">
-            <p class="result-text-blurred">${closingData.full}</p>
-            <div class="result-blur-overlay"></div>
-          </div>
-        </div>
-
         <!-- Email Capture -->
-        <div class="email-capture-section fade-in-up delay-5" id="email-capture-section">
+        <div class="email-capture-section fade-in-up delay-4" id="email-capture-section">
           <div class="email-capture-card">
             <p class="email-capture-icon">📩</p>
             <p class="email-capture-heading">詳しい結果レポートをメールでお届けします</p>
             <p class="email-capture-text">
-              あなたの回答に合わせた<strong>5つの分析結果</strong>と、<br>これからのキャリアを考えるヒントをお届けします。
+              あなたの回答に合わせた<strong>詳しい分析結果</strong>と、<br>これからのあなたへのメッセージをお届けします。
             </p>
             <div class="email-form" id="email-form">
               <input type="email" class="email-input" id="email-input"
