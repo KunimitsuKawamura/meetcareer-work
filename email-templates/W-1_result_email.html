@@ -82,17 +82,20 @@
             </td>
           </tr>
 
-          <!-- ===== RESULT CARD 1: 今の気持ち ===== -->
+          <!-- ===== RESULT CARD 1: 今の気持ち (Step 1 full) ===== -->
           <tr>
             <td style="padding: 0 32px 16px 32px;" class="padding-mobile">
               <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #FFF8EE; border-radius: 12px; border-left: 4px solid #F5A623;">
                 <tr>
                   <td style="padding: 20px 24px;">
-                    <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 700; color: #F5A623; text-transform: uppercase; letter-spacing: 1px;">
-                      Step 1 — 今の気持ち
+                    <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 700; color: #F5A623; letter-spacing: 1px;">
+                      あなたの今の気持ち
                     </p>
-                    <p style="margin: 0; font-size: 16px; color: #4A4A4A; line-height: 1.6;">
-                      {{ contact.WORK_STEP1_TAG }}
+                    <p style="margin: 0 0 12px 0; font-size: 16px; font-weight: 700; color: #4A4A4A; line-height: 1.6;">
+                      {% if contact.WORK_STEP1_TAG == "moyamoya" %}「このままでいいのかな」——その気持ちに気づけていること自体が、大切な一歩です。{% elif contact.WORK_STEP1_TAG == "change" %}何かを変えたいという感覚——それはあなたの中にある大切なサインです。{% elif contact.WORK_STEP1_TAG == "busy" %}立ち止まってくれたこと——それだけで、自分を大切にしている証拠です。{% elif contact.WORK_STEP1_TAG == "anxiety" %}この先を見据える不安——それはあなたがちゃんと先を見ている証です。{% elif contact.WORK_STEP1_TAG == "identity" %}「好き」や「得意」がわからなくなること——それは変化の中で自然に起こることです。{% else %}{{ contact.WORK_STEP1_TAG }}{% endif %}
+                    </p>
+                    <p style="margin: 0; font-size: 14px; color: #4A4A4A; line-height: 1.8;">
+                      {% if contact.WORK_STEP1_TAG == "moyamoya" %}「このままでいいのかな」——そんなふうに感じているんですね。<br>その気持ちに気づけていること自体が、大切な一歩です。<br><br>多くの方がこの「もやっとした感覚」を見て見ぬふりしてしまいます。<br>今日、立ち止まれたあなたは、すでに前に進み始めています。{% elif contact.WORK_STEP1_TAG == "change" %}何かを変えたいという気持ちが、心のどこかにあるんですね。<br>まだ何かがわからなくても、その感覚を大事にしてください。<br><br>「何を変えたいか」はまだわからなくていい。<br>「変えたい」と感じられることが、すでにとても大切なことです。{% elif contact.WORK_STEP1_TAG == "busy" %}忙しい毎日の中で、このワークに立ち止まってくれたこと。<br>それだけで、自分を大切にしようとしている証拠です。<br><br>「時間がないから後回し」にしがちな自分の気持ち。<br>今日、ほんの3分だけでも向き合えたこと、とても素敵なことです。{% elif contact.WORK_STEP1_TAG == "anxiety" %}今は大丈夫。でもこの先のことを考えると少し不安——<br>そう感じるのは、あなたがちゃんと先を見ているからです。<br><br>漠然とした不安は、実は「こうなりたい」の裏返し。<br>その気持ちの先にあるものを一緒に見つけていきましょう。{% elif contact.WORK_STEP1_TAG == "identity" %}自分の「好き」や「得意」がわからなくなること、ありますよね。<br>それは変化や成長の中で、自然に起こることなんです。<br><br>ライフステージの変化、役割の増加——<br>「以前の自分」と「今の自分」のギャップに戸惑うのは当然のこと。<br>改めて見つめ直すことで、新しい自分に出会えるかもしれません。{% endif %}
                     </p>
                   </td>
                 </tr>
@@ -100,17 +103,76 @@
             </td>
           </tr>
 
-          <!-- ===== RESULT CARD 2: 大切にしたいこと ===== -->
+          <!-- ===== RESULT CARD 2: モヤモヤの背景 (Step 2) ===== -->
+          {% if contact.WORK_STEP2_TAGS %}
           <tr>
             <td style="padding: 0 32px 16px 32px;" class="padding-mobile">
               <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #FFF8EE; border-radius: 12px; border-left: 4px solid #F5A623;">
                 <tr>
                   <td style="padding: 20px 24px;">
-                    <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 700; color: #F5A623; text-transform: uppercase; letter-spacing: 1px;">
-                      Step 3 — 大切にしたいこと
+                    <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 700; color: #F5A623; letter-spacing: 1px;">
+                      モヤモヤの背景にあるもの
                     </p>
-                    <p style="margin: 0; font-size: 16px; color: #4A4A4A; line-height: 1.6;">
-                      {{ contact.WORK_STEP3_TAG }}
+                    <p style="margin: 0 0 16px 0; font-size: 14px; color: #4A4A4A; line-height: 1.7;">
+                      あなたが選んだ要素から、今の気持ちに影響しているものが見えてきました。
+                    </p>
+                    {% if "work-content" in contact.WORK_STEP2_TAGS %}
+                    <p style="margin: 0 0 12px 0; font-size: 14px; color: #4A4A4A; line-height: 1.7;">
+                      <strong style="color: #5B9E9E;">●</strong> <strong>仕事の内容ややりがい</strong><br>
+                      <span style="color: #8A8A8A; font-size: 13px;">やりがいを見つめ直すタイミングにいます</span>
+                    </p>
+                    {% endif %}
+                    {% if "flexibility" in contact.WORK_STEP2_TAGS %}
+                    <p style="margin: 0 0 12px 0; font-size: 14px; color: #4A4A4A; line-height: 1.7;">
+                      <strong style="color: #5B9E9E;">●</strong> <strong>働く時間や場所の自由度</strong><br>
+                      <span style="color: #8A8A8A; font-size: 13px;">自分に合った働き方を模索しています</span>
+                    </p>
+                    {% endif %}
+                    {% if "relationship" in contact.WORK_STEP2_TAGS %}
+                    <p style="margin: 0 0 12px 0; font-size: 14px; color: #4A4A4A; line-height: 1.7;">
+                      <strong style="color: #5B9E9E;">●</strong> <strong>人間関係や職場の雰囲気</strong><br>
+                      <span style="color: #8A8A8A; font-size: 13px;">環境が心に与える影響を感じています</span>
+                    </p>
+                    {% endif %}
+                    {% if "direction" in contact.WORK_STEP2_TAGS %}
+                    <p style="margin: 0 0 12px 0; font-size: 14px; color: #4A4A4A; line-height: 1.7;">
+                      <strong style="color: #5B9E9E;">●</strong> <strong>キャリアの方向性や将来像</strong><br>
+                      <span style="color: #8A8A8A; font-size: 13px;">先の見通しを立てたいと感じています</span>
+                    </p>
+                    {% endif %}
+                    {% if "balance" in contact.WORK_STEP2_TAGS %}
+                    <p style="margin: 0 0 12px 0; font-size: 14px; color: #4A4A4A; line-height: 1.7;">
+                      <strong style="color: #5B9E9E;">●</strong> <strong>家庭やプライベートとのバランス</strong><br>
+                      <span style="color: #8A8A8A; font-size: 13px;">仕事と生活の両立を大切にしています</span>
+                    </p>
+                    {% endif %}
+                    {% if "values" in contact.WORK_STEP2_TAGS %}
+                    <p style="margin: 0 0 0 0; font-size: 14px; color: #4A4A4A; line-height: 1.7;">
+                      <strong style="color: #5B9E9E;">●</strong> <strong>自分の気持ちや価値観の変化</strong><br>
+                      <span style="color: #8A8A8A; font-size: 13px;">内面の変化に向き合おうとしています</span>
+                    </p>
+                    {% endif %}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          {% endif %}
+
+          <!-- ===== RESULT CARD 3: 大切にしたいこと (Step 3 full) ===== -->
+          <tr>
+            <td style="padding: 0 32px 16px 32px;" class="padding-mobile">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #FFF8EE; border-radius: 12px; border-left: 4px solid #F5A623;">
+                <tr>
+                  <td style="padding: 20px 24px;">
+                    <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 700; color: #F5A623; letter-spacing: 1px;">
+                      あなたが今、大切にしたいこと
+                    </p>
+                    <p style="margin: 0 0 12px 0; font-size: 16px; font-weight: 700; color: #4A4A4A; line-height: 1.6;">
+                      {% if contact.WORK_STEP3_TAG == "authenticity" %}あなたが求めているのは「自分らしさへの納得感」——{% elif contact.WORK_STEP3_TAG == "contribution" %}あなたの中にある「誰かの役に立ちたい」という気持ち——{% elif contact.WORK_STEP3_TAG == "growth" %}「もっと成長したい」——あなたの内側にある大切なエネルギーです。{% elif contact.WORK_STEP3_TAG == "peace" %}「心のゆとり」を求めること——それは自分を守るための知恵です。{% elif contact.WORK_STEP3_TAG == "harmony" %}仕事も大切な人との時間も——どちらも諦めたくないという誠実さ。{% else %}{{ contact.WORK_STEP3_TAG }}{% endif %}
+                    </p>
+                    <p style="margin: 0; font-size: 14px; color: #4A4A4A; line-height: 1.8;">
+                      {% if contact.WORK_STEP3_TAG == "authenticity" %}あなたが求めているのは、「自分らしさへの納得感」。<br>他の誰かの正解ではなく、自分にとっての「これでいい」を見つけること。<br><br>人生の節目には、「自分って何がしたいんだっけ？」と<br>立ち止まる時期が誰にでもあります。<br>それは迷っているのではなく、自分を見つめ直している大切な時間です。{% elif contact.WORK_STEP3_TAG == "contribution" %}あなたの中には、「誰かの役に立ちたい」という気持ちがあるんですね。<br>30代・40代になると、「自分のためだけ」ではなく<br>「誰かのために」「次の世代のために」という想いが自然と芽生えてきます。<br><br>その想いは、とても自然で、とても価値のあるものです。{% elif contact.WORK_STEP3_TAG == "growth" %}「もっと成長したい」——それはあなたの内側にある大切なエネルギーです。<br>30代・40代は、経験を積んだからこそ見える「次のステージ」がある時期。<br><br>その感覚を信じてあげてください。{% elif contact.WORK_STEP3_TAG == "peace" %}「心のゆとり」を求めること。それは弱さではなく、<br>自分を守るための大切な知恵です。<br><br>無理をしてきた自分に、「よく頑張ったね」と声をかけてあげてほしい。{% elif contact.WORK_STEP3_TAG == "harmony" %}仕事も、大切な人との時間も、どちらも諦めたくない。<br>その気持ちは「欲張りなんかじゃなくて、誠実さ」の表れです。<br><br>両方を大切にできる「自分なりのバランス」は、必ず見つかります。{% endif %}
                     </p>
                   </td>
                 </tr>
@@ -118,17 +180,46 @@
             </td>
           </tr>
 
-          <!-- ===== RESULT CARD 3: 理想の状態 ===== -->
+          <!-- ===== RESULT CARD 4: 今のあなたの状態 (Step 4) ===== -->
+          {% if contact.WORK_STEP4_TAG %}
+          <tr>
+            <td style="padding: 0 32px 16px 32px;" class="padding-mobile">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #FFF8EE; border-radius: 12px; border-left: 4px solid #F5A623;">
+                <tr>
+                  <td style="padding: 20px 24px;">
+                    <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 700; color: #F5A623; letter-spacing: 1px;">
+                      今のあなたの状態
+                    </p>
+                    <p style="margin: 0 0 8px 0; font-size: 16px; font-weight: 700; color: #4A4A4A; line-height: 1.6;">
+                      {% if contact.WORK_STEP4_TAG == "vague" %}「なんとなくモヤっとしている」状態{% elif contact.WORK_STEP4_TAG == "tired" %}「ちょっと疲れてきた」状態{% elif contact.WORK_STEP4_TAG == "stuck" %}「一歩が踏み出せない」状態{% elif contact.WORK_STEP4_TAG == "transition" %}「これでいいのか迷っている」状態{% elif contact.WORK_STEP4_TAG == "self-care" %}「もっと自分を大切にしたい」状態{% else %}{{ contact.WORK_STEP4_TAG }}{% endif %}
+                    </p>
+                    <p style="margin: 0 0 12px 0; font-size: 14px; color: #4A4A4A; line-height: 1.8;">
+                      {% if contact.WORK_STEP4_TAG == "vague" %}はっきりした不満がないからこそ、動きにくい。でもその「モヤモヤ」は確かなサインです。{% elif contact.WORK_STEP4_TAG == "tired" %}頑張り続けてきた自分を、まずは認めてあげてください。{% elif contact.WORK_STEP4_TAG == "stuck" %}やりたい気持ちがあるのに動けない——それは慎重さの表れでもあります。{% elif contact.WORK_STEP4_TAG == "transition" %}環境が変わったとき、自分の位置を確認したくなるのは自然なことです。{% elif contact.WORK_STEP4_TAG == "self-care" %}自分を大切にしたいと思えること——それ自体が、大きな気づきです。{% endif %}
+                    </p>
+                    <p style="margin: 0; font-size: 13px; color: #8A8A8A; line-height: 1.7;">
+                      {% if contact.WORK_STEP4_TAG == "vague" %}この状態は「現状維持バイアス」が働きやすい時期。小さな違和感を言葉にするだけで、次の一歩が見えてきます。{% elif contact.WORK_STEP4_TAG == "tired" %}エネルギーの使い方を見直すことで、無理なく前に進める道が見つかります。休むことも前進です。{% elif contact.WORK_STEP4_TAG == "stuck" %}いきなり大きく変えなくて大丈夫。「半歩だけ」の実験から始めると、意外と道は開けます。{% elif contact.WORK_STEP4_TAG == "transition" %}新しい環境で「自分はこれでいいのか」と問い直すことは、適応力の高さの証拠です。{% elif contact.WORK_STEP4_TAG == "self-care" %}他者のために頑張ってきた分、今度は自分のための時間を確保することが大切です。{% endif %}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          {% endif %}
+
+          <!-- ===== RESULT CARD 5: 半年後の理想 (Step 5 full) ===== -->
           <tr>
             <td style="padding: 0 32px 24px 32px;" class="padding-mobile">
               <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #FFF8EE; border-radius: 12px; border-left: 4px solid #F5A623;">
                 <tr>
                   <td style="padding: 20px 24px;">
-                    <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 700; color: #F5A623; text-transform: uppercase; letter-spacing: 1px;">
-                      Step 5 — 理想の状態
+                    <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 700; color: #F5A623; letter-spacing: 1px;">
+                      半年後、こうなっていたら嬉しいこと
                     </p>
-                    <p style="margin: 0; font-size: 16px; color: #4A4A4A; line-height: 1.6;">
-                      {{ contact.WORK_STEP5_TAG }}
+                    <p style="margin: 0 0 12px 0; font-size: 16px; font-weight: 700; color: #4A4A4A; line-height: 1.6;">
+                      {% if contact.WORK_STEP5_TAG == "verbalize" %}気持ちを言葉にできるようになりたい——{% elif contact.WORK_STEP5_TAG == "strength" %}自分の特性を知りたい——{% elif contact.WORK_STEP5_TAG == "axis" %}自分なりの軸を見つけたい——{% elif contact.WORK_STEP5_TAG == "dialogue" %}誰かと話しながら整理したい——{% elif contact.WORK_STEP5_TAG == "pace" %}自分のペースで前に進みたい——{% else %}{{ contact.WORK_STEP5_TAG }}{% endif %}
+                    </p>
+                    <p style="margin: 0; font-size: 14px; color: #4A4A4A; line-height: 1.8;">
+                      {% if contact.WORK_STEP5_TAG == "verbalize" %}気持ちを言葉にできるようになりたい——<br>ミートキャリアでは、対話を通じてモヤモヤを「自分の言葉」に変えていきます。<br><br>うまく話せなくても大丈夫。<br>少しずつ言葉にしていくことで、自分自身の輪郭がはっきり見えてきます。{% elif contact.WORK_STEP5_TAG == "strength" %}自分の特性を知りたい——<br>ミートキャリアでは「できること」より「心地よいこと」を大切にします。<br><br>あなたの特性を一緒に見つけて、それを活かせる環境を探していきましょう。{% elif contact.WORK_STEP5_TAG == "axis" %}自分なりの軸を見つけたい——<br>ミートキャリアのカウンセラーは「答えを教える人」ではなく、<br>あなたが自分の軸に気づくための「対話のパートナー」です。{% elif contact.WORK_STEP5_TAG == "dialogue" %}誰かと話しながら整理したい——<br>一人で抱え込まなくて大丈夫。<br><br>ミートキャリアでは、あなたの話にじっくり耳を傾けながら、<br>一緒に「今いる場所」と「向かいたい方向」を整理していきます。{% elif contact.WORK_STEP5_TAG == "pace" %}自分のペースで前に進みたい——<br>急がなくて大丈夫です。<br><br>焦って答えを出す必要はありません。<br>あなたのペースに合わせて、一緒に歩いていきます。{% endif %}
                     </p>
                   </td>
                 </tr>
@@ -164,13 +255,13 @@
                       💭 あなたへの問いかけ
                     </p>
                     <p style="margin: 0 0 12px 0; font-size: 15px; color: #4A4A4A; line-height: 1.8;">
-                      ① 今の気持ちに、自分でも驚いたことはありますか？
+                      ① 今回のワークで、すでに言葉にできたことは何でしたか？
                     </p>
                     <p style="margin: 0 0 12px 0; font-size: 15px; color: #4A4A4A; line-height: 1.8;">
-                      ② ワーク中に選ばなかったけど、少し気になった選択肢はありましたか？
+                      ② まだうまく言葉にできない部分は、どのあたりにありそうですか？
                     </p>
                     <p style="margin: 0; font-size: 15px; color: #4A4A4A; line-height: 1.8;">
-                      ③ 半年後の理想の状態を、もう少し具体的にするなら？
+                      ③ もし誰かに話すとしたら、何から話してみたいですか？
                     </p>
                   </td>
                 </tr>
@@ -204,21 +295,6 @@
               <p style="margin: 0; font-size: 13px; color: #8A8A8A; line-height: 1.6;">
                 ※ 3日後にお届け予定です
               </p>
-            </td>
-          </tr>
-
-          <!-- ===== CTA BUTTON ===== -->
-          <tr>
-            <td style="padding: 8px 32px 32px 32px; text-align: center;" class="padding-mobile">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center">
-                <tr>
-                  <td style="background: linear-gradient(135deg, #F5A623 0%, #E8941A 100%); border-radius: 30px;">
-                    <a href="https://work.meetcareer.net/?utm_source=brevo&utm_medium=email&utm_campaign=w-track&utm_content=w1_redo" target="_blank" style="display: inline-block; padding: 14px 40px; font-size: 15px; font-weight: 700; color: #FFFFFF; text-decoration: none; letter-spacing: 0.5px;">
-                      もう一度ワークを試す →
-                    </a>
-                  </td>
-                </tr>
-              </table>
             </td>
           </tr>
 

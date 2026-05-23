@@ -323,7 +323,7 @@ class WorkApp {
     Analytics.trackEmailFormView();
 
     // Email form submission
-    this.setupEmailForm(step1Tag, step3Tag, step5Tag);
+    this.setupEmailForm(step1Tag, step2Tags, step3Tag, step4Tag, step5Tag);
 
     // CTA click tracking
     document.getElementById('btn-cta').addEventListener('click', () => {
@@ -341,7 +341,7 @@ class WorkApp {
   }
 
   // --- Email Capture ---
-  setupEmailForm(step1Tag, step3Tag, step5Tag) {
+  setupEmailForm(step1Tag, step2Tags, step3Tag, step4Tag, step5Tag) {
     const form = document.getElementById('email-form');
     const input = document.getElementById('email-input');
     const submitBtn = document.getElementById('btn-email-submit');
@@ -367,7 +367,7 @@ class WorkApp {
       errorEl.style.display = 'none';
 
       try {
-        await this.submitToBrevo(email, step1Tag, step3Tag, step5Tag);
+        await this.submitToBrevo(email, step1Tag, step2Tags, step3Tag, step4Tag, step5Tag);
 
         // Success
         captureCard.style.display = 'none';
@@ -402,7 +402,7 @@ class WorkApp {
   }
 
   // --- Brevo Subscription Form API ---
-  async submitToBrevo(email, step1Tag, step3Tag, step5Tag) {
+  async submitToBrevo(email, step1Tag, step2Tags, step3Tag, step4Tag, step5Tag) {
     const BREVO_FORM_URL = 'https://33f74781.sibforms.com/serve/MUIFAOmKNPs7lM4tRqjBWhsW13MGkZHSQtG8tgODk2JhnyDmAMcuRGTrZIhh3av1fhwYyO9o35VA0dtmM9ThdpFycs7LM3d_phuIhWV4j1JdYcpjKeHJW-081V0H7SrXl3z2RlGPnQTZ0duQ8R0X-fBU91qJ7cjmwRH4JTN57AWOvP-8fLMIRk1cYs6bYJXc3H12543HqPSsIxJMFQ==';
 
     const utm = Analytics.getUTMParams();
@@ -413,6 +413,8 @@ class WorkApp {
     formData.append('WORK_STEP1_TAG', step1Tag);
     formData.append('WORK_STEP3_TAG', step3Tag);
     formData.append('WORK_STEP5_TAG', step5Tag);
+    formData.append('WORK_STEP2_TAGS', step2Tags.join(','));
+    formData.append('WORK_STEP4_TAG', step4Tag);
     formData.append('WORK_COMPLETED_AT', now);
     formData.append('WORK_UTM_SOURCE', utm.utm_source);
     // Brevo hidden fields (honeypot & metadata)
