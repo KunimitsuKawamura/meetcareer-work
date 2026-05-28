@@ -29,19 +29,29 @@ class WorkApp {
           <span class="accent">3分</span>で、今の自分に<br>気づくワーク
         </h1>
         <p class="hero-subtitle fade-in-up delay-1">
-          忙しい毎日の中で、<br>ほんの少しだけ立ち止まってみませんか
+          キャリアのモヤモヤ、<br>少し見つめ直してみませんか？
         </p>
-        <div class="hero-principles fade-in-up delay-2">
+        <div class="hero-principles fade-in-up delay-1">
           <ul>
-            <li>答えを出さなくて大丈夫</li>
-            <li>考え込まなくて大丈夫。直感で選ぶだけ</li>
-            <li>自分をジャッジしなくて大丈夫</li>
-            <li>今の自分を、ただ見つめるだけのワーク</li>
+            <li>5つの質問に直感で答えるだけ</li>
+            <li>答えは出さなくて大丈夫</li>
           </ul>
         </div>
-        <button class="btn-primary fade-in-up delay-3" id="btn-start">
-          3分でやってみる（無料）
+        <button class="btn-primary btn-pulse fade-in-up delay-2" id="btn-start">
+          無料でやってみる
         </button>
+        <div class="social-proof fade-in-up delay-3">
+          <div class="social-proof-badges">
+            <picture>
+              <source srcset="assets/badge_94.webp" type="image/webp">
+              <img src="assets/badge_94.png" alt="サポート満足度94%" class="social-proof-badge" width="80" height="60">
+            </picture>
+            <picture>
+              <source srcset="assets/badge_6000.webp" type="image/webp">
+              <img src="assets/badge_6000.png" alt="カウンセリング実績6,000件" class="social-proof-badge" width="80" height="60">
+            </picture>
+          </div>
+        </div>
       </div>
     `;
 
