@@ -1,6 +1,6 @@
 /**
  * ミートキャリア 計測モジュール
- * UTMパラメータ取得 + GA4イベント送信
+ * UTMパラメータ取得 + GA4イベント送信 + Meta Pixel連携
  */
 
 const Analytics = (() => {
@@ -38,9 +38,29 @@ const Analytics = (() => {
             gtag('event', eventName, enrichedParams);
         }
 
+        // Meta Pixel連携
+        sendMetaPixelEvent(eventName, params);
+
         // デバッグ用コンソールログ
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             console.log(`📊 [Analytics] ${eventName}`, enrichedParams);
+        }
+    }
+
+    // Meta Pixel イベントマッピング
+    function sendMetaPixelEvent(eventName, params) {
+        if (typeof fbq !== 'function') return;
+
+        switch (eventName) {
+            case 'work_start':
+                fbq('track', 'ViewContent', { content_name: '3min_work_start' });
+                break;
+            case 'work_complete':
+                fbq('track', 'CompleteRegistration', { content_name: '3min_work_complete' });
+                break;
+            case 'work_email_submit':
+                fbq('track', 'Lead', { content_name: '3min_work_email' });
+                break;
         }
     }
 
