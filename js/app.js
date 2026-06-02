@@ -221,7 +221,7 @@ class WorkApp {
         </div>
 
         <!-- Section 1: Opening (Step1) -->
-        <div class="result-card fade-in-up">
+        <div class="result-card fade-in-up" data-track-section="opening">
           <p class="result-heading">ワークおつかれさまでした</p>
           <p class="result-text">${openingData.outline}</p>
           <p class="result-teaser-text">${openingData.teaser}</p>
@@ -234,7 +234,7 @@ class WorkApp {
         <div class="result-divider fade-in-up delay-1"></div>
 
         <!-- Section 2: Background Factors (Step2) -->
-        <div class="result-card fade-in-up delay-1">
+        <div class="result-card fade-in-up delay-1" data-track-section="background">
           <p class="result-heading">あなたのモヤモヤの背景</p>
           <div class="result-factor-tags">
             ${backgroundTagsHTML}
@@ -251,7 +251,7 @@ class WorkApp {
         <div class="result-divider fade-in-up delay-2"></div>
 
         <!-- Section 3: Values (Step3) -->
-        <div class="result-card fade-in-up delay-2">
+        <div class="result-card fade-in-up delay-2" data-track-section="values">
           <p class="result-heading">あなたが今、大切にしたいこと</p>
           <p class="result-text">${middleData.outline}</p>
           <p class="result-teaser-text">${middleData.teaser}</p>
@@ -264,7 +264,7 @@ class WorkApp {
         <div class="result-divider fade-in-up delay-3"></div>
 
         <!-- Section 4: Self-State (Step4) -->
-        <div class="result-card fade-in-up delay-3">
+        <div class="result-card fade-in-up delay-3" data-track-section="self_state">
           <p class="result-heading">今のあなたの状態</p>
           <p class="result-self-state-label">${selfStateData.label}</p>
           <p class="result-text">${selfStateData.insight}</p>
@@ -277,7 +277,7 @@ class WorkApp {
         </div>
 
         <!-- Email Capture -->
-        <div class="email-capture-section fade-in-up delay-4" id="email-capture-section">
+        <div class="email-capture-section fade-in-up delay-4" id="email-capture-section" data-track-section="email">
           <div class="email-capture-card">
             <p class="email-capture-icon">📩</p>
             <p class="email-capture-heading">詳しい結果レポートをメールでお届けします</p>
@@ -304,14 +304,14 @@ class WorkApp {
           </div>
         </div>
 
-        <div class="reflection-card fade-in-up delay-5">
+        <div class="reflection-card fade-in-up delay-5" data-track-section="reflection">
           <p class="reflection-heading">${reflection.heading}</p>
           <ul class="reflection-list">
             ${reflectionItems}
           </ul>
         </div>
 
-        <div class="cta-section fade-in-up delay-5">
+        <div class="cta-section fade-in-up delay-5" data-track-section="cta">
           <p class="cta-heading">${cta.heading}</p>
           <p class="cta-text">${cta.text}</p>
           <a href="${ctaUrl}" class="btn-primary" id="btn-cta" target="_blank" rel="noopener">
@@ -348,6 +348,73 @@ class WorkApp {
       this.renderHero();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+    // Result page tracking (scroll depth, section visibility, email focus)
+    this.setupResultTracking();
+  }
+  // --- Result Page Tracking (scroll depth, section visibility, email focus) ---
+  setupResultTracking() {
+    const viewedSections = new Set();
+    const viewedDepths = new Set();
+    let emailFocusTracked = false;
+
+    // 1. Section visibility tracking via IntersectionObserver
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const section = entry.target.dataset.trackSection;
+          if (section && !viewedSections.has(section)) {
+            viewedSections.add(section);
+            Analytics.trackResultSectionView(section);
+            sectionObserver.unobserve(entry.target);
+          }
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('[data-track-section]').forEach(el => {
+      sectionObserver.observe(el);
+    });
+
+    // 2. Scroll depth tracking (25%/50%/75%/100%)
+    const resultScreen = document.getElementById('screen-result');
+    let scrollHandler = null;
+
+    if (resultScreen) {
+      scrollHandler = () => {
+        const rect = resultScreen.getBoundingClientRect();
+        const totalHeight = resultScreen.offsetHeight;
+        if (totalHeight === 0) return;
+
+        const scrolled = Math.max(0, -rect.top + window.innerHeight);
+        const scrollPercent = Math.min(100, (scrolled / totalHeight) * 100);
+
+        [25, 50, 75, 100].forEach(depth => {
+          if (scrollPercent >= depth && !viewedDepths.has(depth)) {
+            viewedDepths.add(depth);
+            Analytics.trackResultScroll(depth);
+          }
+        });
+
+        if (viewedDepths.size >= 4 && scrollHandler) {
+          window.removeEventListener('scroll', scrollHandler);
+        }
+      };
+
+      window.addEventListener('scroll', scrollHandler, { passive: true });
+      requestAnimationFrame(() => scrollHandler());
+    }
+
+    // 3. Email input focus tracking
+    const emailInput = document.getElementById('email-input');
+    if (emailInput) {
+      emailInput.addEventListener('focus', () => {
+        if (!emailFocusTracked) {
+          emailFocusTracked = true;
+          Analytics.trackEmailFocus();
+        }
+      });
+    }
   }
 
   // --- Email Capture ---

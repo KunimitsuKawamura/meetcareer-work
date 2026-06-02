@@ -69,6 +69,13 @@ const Analytics = (() => {
             utm_source_value: utmSource
         }),
         trackEmailFormView: () => sendEvent('work_email_form_view'),
+        trackResultScroll: (depth) => sendEvent('work_result_scroll', {
+            depth: String(depth)
+        }),
+        trackResultSectionView: (section) => sendEvent('work_result_section_view', {
+            section: section
+        }),
+        trackEmailFocus: () => sendEvent('work_email_focus'),
         getUTMParams
     };
 })();
