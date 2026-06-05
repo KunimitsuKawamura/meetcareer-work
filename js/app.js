@@ -280,9 +280,9 @@ class WorkApp {
         <div class="email-capture-section fade-in-up delay-4" id="email-capture-section" data-track-section="email">
           <div class="email-capture-card">
             <p class="email-capture-icon">📩</p>
-            <p class="email-capture-heading">詳しい結果レポートをメールでお届けします</p>
+            <p class="email-capture-heading">詳しい結果レポートを<br>メールでお届けします</p>
             <p class="email-capture-text">
-              あなたの回答に合わせた<strong>詳しい結果</strong>と、<br>これからのあなたへのメッセージをお届けします。
+              あなたの回答に合わせた<strong>詳しい結果</strong>と、<br>これからのあなたへの<br>メッセージをお届けします。
             </p>
             <div class="email-form" id="email-form">
               <input type="email" class="email-input" id="email-input"
@@ -330,7 +330,7 @@ class WorkApp {
             <p class="bot-promo-icon">💬</p>
             <p class="bot-promo-heading">もっと深く掘り下げたい方へ</p>
             <p class="bot-promo-text">
-              3分ワークで見えてきたモヤモヤを、<br>AIと対話しながらじっくり整理してみませんか？
+              3分ワークで見えてきたモヤモヤを、<br>AIと対話しながら<br>じっくり整理してみませんか？
             </p>
             <p class="bot-promo-note">6,000件のキャリア支援ノウハウを搭載した<br>無料のAI壁打ちサービスです</p>
             <a href="https://bot.meetcareer.net/?utm_source=work&utm_medium=result_page&utm_campaign=bot_promo" class="btn-bot-promo" id="btn-bot-promo" target="_blank" rel="noopener">

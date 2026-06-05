@@ -870,8 +870,14 @@ body {
   }
 
   .btn-primary {
-    padding: 16px 40px;
+    padding: 16px 28px;
     font-size: 0.95rem;
+  }
+
+  .cta-section .btn-primary {
+    padding: 16px 24px;
+    font-size: 0.9rem;
+    width: 100%;
   }
 
   .result-card {
