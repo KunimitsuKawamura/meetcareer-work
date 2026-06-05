@@ -323,6 +323,21 @@ class WorkApp {
         <div class="retry-section fade-in-up delay-5">
           <button class="btn-secondary" id="btn-retry">もう一度やってみる</button>
         </div>
+
+        <!-- 壁打ちAI導線 -->
+        <div class="bot-promo-section fade-in-up delay-5" data-track-section="bot_promo">
+          <div class="bot-promo-card">
+            <p class="bot-promo-icon">💬</p>
+            <p class="bot-promo-heading">もっと深く掘り下げたい方へ</p>
+            <p class="bot-promo-text">
+              3分ワークで見えてきたモヤモヤを、<br>AIと対話しながらじっくり整理してみませんか？
+            </p>
+            <p class="bot-promo-note">6,000件のキャリア支援ノウハウを搭載した<br>無料のAI壁打ちサービスです</p>
+            <a href="https://bot.meetcareer.net/?utm_source=work&utm_medium=result_page&utm_campaign=bot_promo" class="btn-bot-promo" id="btn-bot-promo" target="_blank" rel="noopener">
+              モヤモヤ壁打ちAIを試す
+            </a>
+          </div>
+        </div>
       </div>
     `;
 
@@ -340,6 +355,19 @@ class WorkApp {
       const destination = RESULT_MESSAGES.cta.trackDestination || 'counseling';
       Analytics.trackCTAClick(destination);
     });
+
+    // Bot promo click tracking
+    const btnBotPromo = document.getElementById('btn-bot-promo');
+    if (btnBotPromo) {
+      btnBotPromo.addEventListener('click', () => {
+        if (typeof gtag === 'function') {
+          gtag('event', 'work_bot_promo_click', {
+            event_category: 'engagement',
+            event_label: 'bot_promo_result_page'
+          });
+        }
+      });
+    }
 
     // Retry
     document.getElementById('btn-retry').addEventListener('click', () => {

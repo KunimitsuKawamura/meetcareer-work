@@ -544,6 +544,69 @@ body {
   margin-top: 24px;
 }
 
+/* --- Bot Promo Section --- */
+.bot-promo-section {
+  width: 100%;
+  margin-top: 32px;
+}
+
+.bot-promo-card {
+  background: rgba(100, 187, 191, 0.06);
+  border: 1px dashed rgba(100, 187, 191, 0.35);
+  border-radius: 20px;
+  padding: 28px 24px;
+  text-align: center;
+}
+
+.bot-promo-icon {
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+}
+
+.bot-promo-heading {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.bot-promo-text {
+  font-size: 0.85rem;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+
+.bot-promo-note {
+  font-size: 0.75rem;
+  color: #999;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.btn-bot-promo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: #64BBBF;
+  border: 2px solid #64BBBF;
+  border-radius: 50px;
+  padding: 12px 28px;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-bot-promo:hover {
+  background: #64BBBF;
+  color: white;
+}
+
 /* --- Social Proof Badges --- */
 .social-proof {
   margin-top: 20px;
