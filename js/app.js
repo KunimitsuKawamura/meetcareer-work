@@ -280,16 +280,17 @@ class WorkApp {
         <div class="email-capture-section fade-in-up delay-4" id="email-capture-section" data-track-section="email">
           <div class="email-capture-card">
             <p class="email-capture-icon">📩</p>
-            <p class="email-capture-heading">詳しい結果レポートを<br>メールでお届けします</p>
+            <p class="email-capture-heading">ぼかし部分の全文を<br>無料でお届けします</p>
             <p class="email-capture-text">
-              あなたの回答に合わせた<strong>詳しい結果</strong>と、<br>これからのあなたへの<br>メッセージをお届けします。
+              あなたの回答をもとにした<br><strong>詳しい結果の全文</strong>と、<br>あなたへの<strong>メッセージ</strong>をお届けします。
             </p>
+            <p class="email-capture-note">メールアドレスの入力だけでOK</p>
             <div class="email-form" id="email-form">
               <input type="email" class="email-input" id="email-input"
                 placeholder="メールアドレスを入力" required
                 autocomplete="email" inputmode="email">
               <button class="btn-primary btn-email-submit" id="btn-email-submit">
-                詳しい結果を受け取る
+                無料で全文を読む
               </button>
             </div>
           </div>
@@ -369,8 +370,13 @@ class WorkApp {
       });
     }
 
+    // Sticky email CTA (追従CTA)
+    this.setupStickyEmailCTA();
+
     // Retry
     document.getElementById('btn-retry').addEventListener('click', () => {
+      const stickyEl = document.getElementById('sticky-email-cta');
+      if (stickyEl) stickyEl.remove();
       this.answers = {};
       this.currentStep = 0;
       this.renderHero();
@@ -445,6 +451,63 @@ class WorkApp {
     }
   }
 
+  // --- Sticky Email CTA (追従CTA) ---
+  setupStickyEmailCTA() {
+    const existing = document.getElementById('sticky-email-cta');
+    if (existing) existing.remove();
+
+    const stickyCTA = document.createElement('div');
+    stickyCTA.id = 'sticky-email-cta';
+    stickyCTA.className = 'sticky-email-cta';
+    stickyCTA.innerHTML = '<button class="sticky-email-cta-btn">📩 無料で全文を読む</button>';
+    document.body.appendChild(stickyCTA);
+
+    let blurReached = false;
+    const emailSection = document.getElementById('email-capture-section');
+    const firstBlur = document.querySelector('.result-blurred-teaser');
+
+    // Detect when first blur is reached (one-time)
+    if (firstBlur) {
+      const blurObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && !blurReached) {
+          blurReached = true;
+          blurObserver.disconnect();
+        }
+      }, { threshold: 0.3 });
+      blurObserver.observe(firstBlur);
+    }
+
+    // Scroll-based visibility: show when email is below viewport, hide otherwise
+    const updateVisibility = () => {
+      if (!document.getElementById('sticky-email-cta')) {
+        window.removeEventListener('scroll', updateVisibility);
+        return;
+      }
+      if (!blurReached || !emailSection) return;
+      const emailRect = emailSection.getBoundingClientRect();
+      if (emailRect.top > window.innerHeight) {
+        stickyCTA.classList.add('sticky-email-cta-visible');
+      } else {
+        stickyCTA.classList.remove('sticky-email-cta-visible');
+      }
+    };
+
+    window.addEventListener('scroll', updateVisibility, { passive: true });
+    requestAnimationFrame(updateVisibility);
+
+    // Click → scroll to email section + auto focus input
+    stickyCTA.addEventListener('click', () => {
+      Analytics.trackEmailUnlockClick('sticky');
+      if (emailSection) {
+        emailSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => {
+          const emailInput = document.getElementById('email-input');
+          if (emailInput) emailInput.focus();
+        }, 600);
+      }
+    });
+  }
+
   // --- Email Capture ---
   setupEmailForm(step1Tag, step2Tags, step3Tag, step4Tag, step5Tag) {
     const form = document.getElementById('email-form');
@@ -477,6 +540,9 @@ class WorkApp {
         // Success
         captureCard.style.display = 'none';
         successEl.style.display = 'block';
+        // Hide sticky CTA permanently
+        const stickyEl = document.getElementById('sticky-email-cta');
+        if (stickyEl) stickyEl.remove();
 
         // Track GA4 event
         const utm = Analytics.getUTMParams();

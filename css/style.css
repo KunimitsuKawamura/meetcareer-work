@@ -467,6 +467,60 @@ body {
   pointer-events: none;
 }
 
+/* --- Sticky Email CTA (追従CTA) --- */
+.sticky-email-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 12px 16px;
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  background: linear-gradient(to top, rgba(253, 249, 243, 0.98) 60%, rgba(253, 249, 243, 0) 100%);
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.sticky-email-cta-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.sticky-email-cta-btn {
+  width: 100%;
+  max-width: 440px;
+  padding: 16px 24px;
+  background: #E89B27;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(232, 155, 39, 0.35);
+  transition: all 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+.sticky-email-cta-btn:active {
+  transform: scale(0.97);
+}
+
+/* --- Email Capture Note (安心マイクロコピー) --- */
+.email-capture-note {
+  font-size: 0.75rem;
+  color: #aaa;
+  margin-bottom: 16px;
+  letter-spacing: 0.03em;
+}
+
 .reflection-card {
   background: rgba(236, 246, 246, 0.6);
   border-radius: 16px;

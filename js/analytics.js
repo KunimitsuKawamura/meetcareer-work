@@ -96,6 +96,9 @@ const Analytics = (() => {
             section: section
         }),
         trackEmailFocus: () => sendEvent('work_email_focus'),
+        trackEmailUnlockClick: (section) => sendEvent('work_email_unlock_click', {
+            section: section
+        }),
         getUTMParams
     };
 })();
