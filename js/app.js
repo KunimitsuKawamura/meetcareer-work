@@ -33,14 +33,12 @@ class WorkApp {
         </p>
         <div class="hero-principles fade-in-up delay-1">
           <ul>
-            <li>5つの質問に直感で答えるだけ</li>
-            <li>答えは出さなくて大丈夫</li>
+            <li>気持ちの整理ができる</li>
+            <li>大切にしたい価値観が見つかる</li>
+            <li>直感で選ぶだけ、3分で完了</li>
           </ul>
         </div>
-        <button class="btn-primary btn-pulse fade-in-up delay-2" id="btn-start">
-          無料でやってみる
-        </button>
-        <div class="social-proof fade-in-up delay-3">
+        <div class="social-proof fade-in-up delay-2">
           <div class="social-proof-badges">
             <picture>
               <source srcset="assets/badge_94.webp" type="image/webp">
@@ -52,6 +50,9 @@ class WorkApp {
             </picture>
           </div>
         </div>
+        <button class="btn-primary btn-pulse fade-in-up delay-3" id="btn-start">
+          無料でやってみる
+        </button>
       </div>
     `;
 

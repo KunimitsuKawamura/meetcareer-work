@@ -119,7 +119,7 @@ body {
   border-radius: 16px;
   padding: 16px 20px;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .hero-principles ul {
@@ -138,12 +138,10 @@ body {
 }
 
 .hero-principles li::before {
-  content: '';
-  display: block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #64BBBF;
+  content: '✓';
+  color: #E89B27;
+  font-weight: 700;
+  font-size: 0.9rem;
   flex-shrink: 0;
 }
 
@@ -663,7 +661,8 @@ body {
 
 /* --- Social Proof Badges --- */
 .social-proof {
-  margin-top: 20px;
+  margin-top: 12px;
+  margin-bottom: 16px;
   width: 100%;
   text-align: center;
 }
