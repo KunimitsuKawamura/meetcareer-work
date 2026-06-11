@@ -573,9 +573,10 @@ class WorkApp {
     });
   }
 
-  // --- Brevo Contact API via GAS Middleware ---
-  // GAS中継サーバー経由でBrevo Contact APIに送信（全5問の回答を確実に保存）
-  // フォールバック: GAS失敗時は旧Subscription Form APIで最低限の登録を保証
+  // --- Brevo メール登録 ---
+  // Primary: Subscription Form API（確実な登録を最優先）
+  // Secondary: GAS → Contact API（全属性保存のため非同期で試行。GAS障害対応で一時的にセカンダリ化）
+  // 変更理由: GASがBrevo APIエラーでもsuccess:trueを返し、6/10 23:35以降の登録が全件ロスト
   async submitToBrevo(email, step1Tag, step2Tags, step3Tag, step4Tag, step5Tag) {
     const GAS_SUBMIT_URL = 'https://script.google.com/macros/s/AKfycby7qMsnBrFs8pNZNqX7qb4R21ee2wfcw_V2--IA8hikrlqgcvBWOjROImcvTzY2cv6i/exec';
     const BREVO_FORM_URL = 'https://33f74781.sibforms.com/serve/MUIFAOmKNPs7lM4tRqjBWhsW13MGkZHSQtG8tgODk2JhnyDmAMcuRGTrZIhh3av1fhwYyO9o35VA0dtmM9ThdpFycs7LM3d_phuIhWV4j1JdYcpjKeHJW-081V0H7SrXl3z2RlGPnQTZ0duQ8R0X-fBU91qJ7cjmwRH4JTN57AWOvP-8fLMIRk1cYs6bYJXc3H12543HqPSsIxJMFQ==';
@@ -583,38 +584,7 @@ class WorkApp {
     const utm = Analytics.getUTMParams();
     const now = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
 
-    // --- Primary: GAS → Brevo Contact API（全属性を確実に保存） ---
-    try {
-      const gasPayload = {
-        email: email,
-        step1: step1Tag,
-        step2: step2Tags.join(','),
-        step3: step3Tag,
-        step4: step4Tag,
-        step5: step5Tag,
-        completedAt: now,
-        utmSource: utm.utm_source,
-      };
-
-      const gasResponse = await fetch(GAS_SUBMIT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' }, // GAS Web App requires text/plain to avoid CORS preflight
-        body: JSON.stringify(gasPayload),
-      });
-
-      if (gasResponse.ok) {
-        const result = await gasResponse.json();
-        if (result.success) {
-          return true;
-        }
-      }
-      // GAS returned non-success → fall through to fallback
-      console.warn('GAS submit non-success, falling back to form API');
-    } catch (gasError) {
-      console.warn('GAS submit failed, falling back to form API:', gasError);
-    }
-
-    // --- Fallback: Brevo Subscription Form API（STEP2/STEP4は保存されないが登録は成功する） ---
+    // --- Primary: Brevo Subscription Form API（確実な登録） ---
     const formData = new FormData();
     formData.append('EMAIL', email);
     formData.append('WORK_STEP1_TAG', step1Tag);
@@ -633,6 +603,20 @@ class WorkApp {
       body: formData,
       mode: 'no-cors'
     });
+
+    // --- Secondary: GAS → Brevo Contact API（全属性保存のため非同期で試行） ---
+    // GAS障害中でも上記Form APIで登録は完了済み。エラーは無視。
+    try {
+      fetch(GAS_SUBMIT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({
+          email, step1: step1Tag, step2: step2Tags.join(','),
+          step3: step3Tag, step4: step4Tag, step5: step5Tag,
+          completedAt: now, utmSource: utm.utm_source,
+        }),
+      }).catch(() => {}); // Fire-and-forget
+    } catch (e) { /* ignore */ }
 
     return true;
   }
