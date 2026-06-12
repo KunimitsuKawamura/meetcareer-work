@@ -29,12 +29,12 @@ class WorkApp {
           <span class="accent">3分</span>で、今の自分に<br>気づくワーク
         </h1>
         <p class="hero-subtitle fade-in-up delay-1">
-          キャリアのモヤモヤ、<br>少し見つめ直してみませんか？
+          そのモヤモヤ、<br>言葉にしてみませんか？
         </p>
         <div class="hero-principles fade-in-up delay-1">
           <ul>
-            <li>気持ちの整理ができる</li>
-            <li>大切にしたい価値観が見つかる</li>
+            <li>モヤモヤを言葉にできる</li>
+            <li>自分の気持ちが整理される</li>
             <li>直感で選ぶだけ、3分で完了</li>
           </ul>
         </div>
