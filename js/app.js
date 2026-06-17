@@ -31,11 +31,16 @@ class WorkApp {
         <p class="hero-subtitle fade-in-up delay-1">
           そのモヤモヤ、<br>言葉にしてみませんか？
         </p>
-        <div class="hero-principles fade-in-up delay-1">
+        <div class="hero-badges fade-in-up delay-1">
+          <span class="hero-badge">3分で完了</span>
+          <span class="hero-badge">すぐ始められる</span>
+          <span class="hero-badge">無料</span>
+        </div>
+        <div class="hero-principles fade-in-up delay-2">
           <ul>
-            <li>モヤモヤを言葉にできる</li>
-            <li>自分の気持ちが整理される</li>
-            <li>直感で選ぶだけ、3分で完了</li>
+            <li>5つの質問に直感で答える</li>
+            <li>モヤモヤが言葉になって見えてくる</li>
+            <li>答えを出さなくて大丈夫</li>
           </ul>
         </div>
         <div class="social-proof fade-in-up delay-2">

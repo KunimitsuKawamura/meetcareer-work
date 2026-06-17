@@ -110,7 +110,30 @@ body {
   color: #666;
   font-size: 0.95rem;
   line-height: 1.8;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
+}
+
+/* --- Hero Badges (pill-type) --- */
+.hero-badges {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(100, 187, 191, 0.08);
+  color: #4a9ea2;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 5px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(100, 187, 191, 0.2);
+  white-space: nowrap;
 }
 
 .hero-principles {
