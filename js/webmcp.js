@@ -46,6 +46,14 @@
       },
       readOnlyHint: true,
       async execute() {
+        // GA4: ツール呼び出しを計測（try/catchでツール動作を保護）
+        try {
+          if (typeof gtag === 'function') {
+            gtag('event', 'webmcp_tool_call', {
+              tool_name: 'get_meetcareer_3min_work_info'
+            });
+          }
+        } catch (_) { /* 計測失敗はツール動作に影響させない */ }
         return {
           content: [{
             type: 'text',
@@ -95,6 +103,14 @@
       },
       readOnlyHint: true,
       async execute() {
+        // GA4: ツール呼び出しを計測（try/catchでツール動作を保護）
+        try {
+          if (typeof gtag === 'function') {
+            gtag('event', 'webmcp_tool_call', {
+              tool_name: 'get_3min_work_questions'
+            });
+          }
+        } catch (_) { /* 計測失敗はツール動作に影響させない */ }
         // QUESTIONS はグローバル変数（questions.js で定義済み）
         if (typeof QUESTIONS === 'undefined') {
           return {
@@ -137,6 +153,11 @@
     }, opts);
 
     console.log('[WebMCP] ミートキャリア 3分ワーク: 2つのツールを登録しました');
+
+    // GA4: WebMCP対応ブラウザでツール登録が成功したことを計測
+    if (typeof gtag === 'function') {
+      gtag('event', 'webmcp_tools_registered');
+    }
 
   } catch (err) {
     // Origin Trial期限切れ等のエラーは静かに処理
